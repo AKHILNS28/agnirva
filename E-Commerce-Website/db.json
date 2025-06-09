@@ -1,0 +1,8 @@
+{
+  "products": [
+    { "id": 1, "name": "Laptop", "price": 899, "image": "images/laptop.webp" },
+    { "id": 2, "name": "Headphones", "price": 199, "image": "images/headphone.webp" },
+    { "id": 3, "name": "Smartphone", "price": 699, "image": "images/smartphone.webp" },
+    { "id": 4, "name": "Camera", "price": 499, "image": "images/camera.webp" }
+  ]
+}
