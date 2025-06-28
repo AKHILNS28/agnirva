@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"> <!-- Sets the character encoding to UTF-8 (Commented by Agnirva.com) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive design on mobile devices (Commented by Agnirva.com) -->
+<style>
+  body,html {
+    margin: 0; padding: 0; /* Removes default margins and padding (Commented by Agnirva.com) */
+    font-family: Arial, sans-serif; /* Sets the default font family (Commented by Agnirva.com) */
+    background: #f4f4f4; /* Sets a light gray background color (Commented by Agnirva.com) */
+  }
+  header {
+    background: #003580; /* Sets header background color (Commented by Agnirva.com) */
+    color: #fff; /* Sets header text color to white (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding around the header (Commented by Agnirva.com) */
+    text-align: center; /* Centers the header text (Commented by Agnirva.com) */
+  }
+
+  header h1 {
+    margin: 0; /* Removes default margin from h1 (Commented by Agnirva.com) */
+    font-size: 1.8em; /* Sets the font size of the header title (Commented by Agnirva.com) */
+  }
+
+  .Agnirvasearch-section {
+    background: #fff; /* Sets background color to white for the search section (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding inside the search section (Commented by Agnirva.com) */
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2); /* Adds a subtle shadow effect (Commented by Agnirva.com) */
+    display: flex; /* Uses flexbox for layout (Commented by Agnirva.com) */
+    justify-content: space-around; /* Distributes space evenly around items (Commented by Agnirva.com) */
+    flex-wrap: wrap; /* Allows items to wrap to the next line if necessary (Commented by Agnirva.com) */
+    gap: 10px; /* Adds space between flex items (Commented by Agnirva.com) */
+    margin-bottom: 20px; /* Adds space below the search section (Commented by Agnirva.com) */
+  }
+
+  .Agnirvasearch-section label {
+    display: block; /* Displays labels as block elements (Commented by Agnirva.com) */
+    font-weight: bold; /* Makes label text bold (Commented by Agnirva.com) */
+    margin-bottom: 5px; /* Adds space below labels (Commented by Agnirva.com) */
+  }
+
+  .Agnirvasearch-section input, .Agnirvasearch-section select {
+    width: 100%; /* Makes input and select elements full width (Commented by Agnirva.com) */
+    padding: 8px; /* Adds padding inside input and select elements (Commented by Agnirva.com) */
+    box-sizing: border-box; /* Includes padding and border in element's total width and height (Commented by Agnirva.com) */
+  }
+
+  .Agnirvasearch-section div {
+    flex: 1 1 200px; /* Allows flex items to grow and shrink with a base width of 200px (Commented by Agnirva.com) */
+    min-width: 200px; /* Sets the minimum width of flex items (Commented by Agnirva.com) */
+  }
+
+  .Agnirvasearch-section button {
+    background: #0071c2; /* Sets button background color (Commented by Agnirva.com) */
+    color: #fff; /* Sets button text color to white (Commented by Agnirva.com) */
+    border: none; /* Removes default button border (Commented by Agnirva.com) */
+    padding: 12px 20px; /* Adds padding inside the button (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+    margin-top: 22px; /* Adds space above the button (Commented by Agnirva.com) */
+    width: 100%; /* Makes the button full width (Commented by Agnirva.com) */
+  }
+  .Agnirvasearch-section button:hover {
+    background: #005999; /* Changes button background color on hover (Commented by Agnirva.com) */
+  }
+
+  .Agnirvawrapper {
+    max-width: 1200px; /* Sets maximum width for the wrapper (Commented by Agnirva.com) */
+    margin: 0 auto; /* Centers the wrapper horizontally (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding inside the wrapper (Commented by Agnirva.com) */
+  }
+
+  .Agnirvasection-header {
+    margin: 40px 0 20px; /* Adds top and bottom margins to section headers (Commented by Agnirva.com) */
+    font-size: 1.4em; /* Sets font size for section headers (Commented by Agnirva.com) */
+    font-weight: bold; /* Makes section header text bold (Commented by Agnirva.com) */
+    border-bottom: 2px solid #ccc; /* Adds a bottom border to section headers (Commented by Agnirva.com) */
+    padding-bottom: 5px; /* Adds padding below section headers (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotels-list {
+    display: flex; /* Uses flexbox for the hotels list layout (Commented by Agnirva.com) */
+    flex-wrap: wrap; /* Allows hotel cards to wrap to the next line (Commented by Agnirva.com) */
+    gap: 20px; /* Adds space between hotel cards (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotel-card {
+    background: #fff; /* Sets hotel card background color to white (Commented by Agnirva.com) */
+    border-radius: 4px; /* Rounds the corners of hotel cards (Commented by Agnirva.com) */
+    overflow: hidden; /* Ensures content doesn't overflow the card (Commented by Agnirva.com) */
+    flex: 1 1 calc(33% - 40px); /* Sets flexible width for hotel cards (Commented by Agnirva.com) */
+    min-width: 280px; /* Sets minimum width for hotel cards (Commented by Agnirva.com) */
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2); /* Adds a shadow to hotel cards (Commented by Agnirva.com) */
+    display: flex; /* Uses flexbox for hotel card layout (Commented by Agnirva.com) */
+    flex-direction: column; /* Arranges card content vertically (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotel-card img {
+    width: 100%; /* Makes hotel images full width of the card (Commented by Agnirva.com) */
+    height: 180px; /* Sets a fixed height for hotel images (Commented by Agnirva.com) */
+    object-fit: cover; /* Ensures the image covers the area without distortion (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotel-info {
+    padding: 10px; /* Adds padding inside hotel info section (Commented by Agnirva.com) */
+    flex: 1; /* Allows the info section to grow and fill available space (Commented by Agnirva.com) */
+    display: flex; /* Uses flexbox for info layout (Commented by Agnirva.com) */
+    flex-direction: column; /* Arranges info content vertically (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotel-info h3 {
+    margin: 0 0 10px; /* Adds bottom margin to hotel name (Commented by Agnirva.com) */
+    font-size: 1.1em; /* Sets font size for hotel name (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotel-info p {
+    margin: 0 0 10px; /* Adds bottom margin to paragraphs in hotel info (Commented by Agnirva.com) */
+    flex: 1; /* Allows paragraphs to take up available space (Commented by Agnirva.com) */
+  }
+
+  .Agnirvaprice {
+    font-weight: bold; /* Makes the price text bold (Commented by Agnirva.com) */
+    margin-bottom: 10px; /* Adds space below the price (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotel-info button {
+    background: #0071c2; /* Sets button background color (Commented by Agnirva.com) */
+    color: #fff; /* Sets button text color to white (Commented by Agnirva.com) */
+    border: none; /* Removes default button border (Commented by Agnirva.com) */
+    padding: 10px; /* Adds padding inside the button (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+    text-align: center; /* Centers the button text (Commented by Agnirva.com) */
+  }
+
+  .Agnirvahotel-info button:hover {
+    background: #005999; /* Changes button background color on hover (Commented by Agnirva.com) */
+  }
+
+  #AgnirvabookingsModal {
+    position: fixed; /* Positions the modal relative to the viewport (Commented by Agnirva.com) */
+    left: 0; top:0; /* Positions modal at the top-left corner (Commented by Agnirva.com) */
+    width: 100%; height:100%; /* Makes the modal cover the entire viewport (Commented by Agnirva.com) */
+    background: rgba(0,0,0,0.5); /* Adds a semi-transparent background (Commented by Agnirva.com) */
+    display: none; /* Hides the modal by default (Commented by Agnirva.com) */
+    justify-content: center; /* Centers modal content horizontally (Commented by Agnirva.com) */
+    align-items: center; /* Centers modal content vertically (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamodal-content {
+    background: #fff; /* Sets modal content background to white (Commented by Agnirva.com) */
+    width: 300px; /* Sets fixed width for modal content (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding inside the modal content (Commented by Agnirva.com) */
+    border-radius: 4px; /* Rounds the corners of the modal (Commented by Agnirva.com) */
+    position: relative; /* Positions close button relative to modal content (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamodal-content h2 {
+    margin-top:0; /* Removes top margin from modal header (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamodal-content label {
+    display: block; /* Displays labels as block elements in modal (Commented by Agnirva.com) */
+    margin: 10px 0 5px; /* Adds margins around labels in modal (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamodal-content input {
+    width: 100%; /* Makes input fields full width in modal (Commented by Agnirva.com) */
+    padding: 8px; /* Adds padding inside input fields (Commented by Agnirva.com) */
+    margin-bottom:10px; /* Adds space below input fields (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamodal-content button {
+    background: #0071c2; /* Sets confirm button background color (Commented by Agnirva.com) */
+    color: #fff; /* Sets confirm button text color to white (Commented by Agnirva.com) */
+    border:none; /* Removes default button border (Commented by Agnirva.com) */
+    padding: 10px; /* Adds padding inside the confirm button (Commented by Agnirva.com) */
+    width: 100%; /* Makes the confirm button full width (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamodal-content button:hover {
+    background:#005999; /* Changes confirm button background color on hover (Commented by Agnirva.com) */
+  }
+
+  .Agnirvaclose-btn {
+    position:absolute; /* Positions the close button absolutely within the modal (Commented by Agnirva.com) */
+    top:10px; right:10px; /* Places the close button at the top-right corner (Commented by Agnirva.com) */
+    background:none; /* Removes background from close button (Commented by Agnirva.com) */
+    border:none; /* Removes border from close button (Commented by Agnirva.com) */
+    font-size:1.2em; /* Sets font size for the close button (Commented by Agnirva.com) */
+    cursor:pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamy-bookings {
+    background: #fff; /* Sets background color for bookings section (Commented by Agnirva.com) */
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2); /* Adds shadow to bookings section (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding inside bookings section (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamy-bookings table {
+    width:100%; /* Makes the bookings table full width (Commented by Agnirva.com) */
+    border-collapse: collapse; /* Collapses table borders for a cleaner look (Commented by Agnirva.com) */
+    margin-top:20px; /* Adds space above the table (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamy-bookings th, .Agnirvamy-bookings td {
+    text-align:left; /* Aligns table text to the left (Commented by Agnirva.com) */
+    padding:10px; /* Adds padding inside table cells (Commented by Agnirva.com) */
+    border-bottom:1px solid #ccc; /* Adds a bottom border to table cells (Commented by Agnirva.com) */
+  }
+
+  .Agnirvamy-bookings th {
+    background:#f0f0f0; /* Sets background color for table headers (Commented by Agnirva.com) */
+  }
+
+  #AgnirvaclearBookingsBtn {
+    margin-top: 20px; /* Adds space above the clear bookings button (Commented by Agnirva.com) */
+    background:#c0392b; /* Sets clear bookings button background color (Commented by Agnirva.com) */
+    color:#fff; /* Sets button text color to white (Commented by Agnirva.com) */
+    border:none; /* Removes default button border (Commented by Agnirva.com) */
+    padding:10px 15px; /* Adds padding inside the button (Commented by Agnirva.com) */
+    cursor:pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+  }
+
+  #AgnirvaclearBookingsBtn:hover {
+    background:#a22e1d; /* Changes button background color on hover (Commented by Agnirva.com) */
+  }
+
+  @media(max-width: 768px){
+    .Agnirvahotel-card {
+      flex: 1 1 100%; /* Makes hotel cards full width on smaller screens (Commented by Agnirva.com) */
+    }
+    .Agnirvasearch-section {
+      flex-direction:column; /* Stacks search fields vertically on smaller screens (Commented by Agnirva.com) */
+      gap:0; /* Removes gap between search fields on smaller screens (Commented by Agnirva.com) */
+    }
+  }
+
+</style>
+<title>Mock Hotel Booking</title> <!-- Sets the page title (Commented by Agnirva.com) -->
+</head>
+<body>
+<header>
+  <h1>Mock Hotels</h1> <!-- Displays the main header title (Commented by Agnirva.com) -->
+</header>
+
+<div class="Agnirvasearch-section">
+  <div>
+    <label for="AgnirvalocationInput">Where to?</label> <!-- Label for location input (Commented by Agnirva.com) -->
+    <input type="text" id="AgnirvalocationInput" placeholder="City or Destination" /> <!-- Input for location (Commented by Agnirva.com) -->
+  </div>
+  <div>
+    <label for="AgnirvacheckInInput">Check-in</label> <!-- Label for check-in date (Commented by Agnirva.com) -->
+    <input type="date" id="AgnirvacheckInInput" /> <!-- Input for check-in date (Commented by Agnirva.com) -->
+  </div>
+  <div>
+    <label for="AgnirvacheckOutInput">Check-out</label> <!-- Label for check-out date (Commented by Agnirva.com) -->
+    <input type="date" id="AgnirvacheckOutInput" /> <!-- Input for check-out date (Commented by Agnirva.com) -->
+  </div>
+  <div>
+    <label for="AgnirvaguestsInput">Guests</label> <!-- Label for guests selection (Commented by Agnirva.com) -->
+    <select id="AgnirvaguestsInput"> <!-- Dropdown for selecting number of guests (Commented by Agnirva.com) -->
+      <option value="1">1 guest</option> <!-- Option for 1 guest (Commented by Agnirva.com) -->
+      <option value="2" selected>2 guests</option> <!-- Option for 2 guests, selected by default (Commented by Agnirva.com) -->
+      <option value="3">3 guests</option> <!-- Option for 3 guests (Commented by Agnirva.com) -->
+      <option value="4">4 guests</option> <!-- Option for 4 guests (Commented by Agnirva.com) -->
+    </select>
+  </div>
+  <div>
+    <button id="AgnirvasearchBtn">Search</button> <!-- Button to initiate search (Commented by Agnirva.com) -->
+  </div>
+</div>
+
+<div class="Agnirvawrapper">
+  <div class="Agnirvasection-header">Available Hotels</div> <!-- Section header for available hotels (Commented by Agnirva.com) -->
+  <div class="Agnirvahotels-list" id="AgnirvahotelsList"></div> <!-- Container for listing available hotels (Commented by Agnirva.com) -->
+
+  <div class="Agnirvasection-header">My Bookings</div> <!-- Section header for user bookings (Commented by Agnirva.com) -->
+  <div class="Agnirvamy-bookings">
+    <table id="AgnirvabookingsTable"> <!-- Table to display user bookings (Commented by Agnirva.com) -->
+      <thead>
+        <tr>
+          <th>Hotel</th> <!-- Table header for Hotel name (Commented by Agnirva.com) -->
+          <th>Location</th> <!-- Table header for Location (Commented by Agnirva.com) -->
+          <th>Check-in</th> <!-- Table header for Check-in date (Commented by Agnirva.com) -->
+          <th>Check-out</th> <!-- Table header for Check-out date (Commented by Agnirva.com) -->
+          <th>Guests</th> <!-- Table header for number of Guests (Commented by Agnirva.com) -->
+        </tr>
+      </thead>
+      <tbody></tbody> <!-- Table body to populate bookings dynamically (Commented by Agnirva.com) -->
+    </table>
+    <button id="AgnirvaclearBookingsBtn">Clear All Bookings</button> <!-- Button to clear all bookings (Commented by Agnirva.com) -->
+  </div>
+</div>
+
+<div id="AgnirvabookingsModal"> <!-- Modal for completing a booking (Commented by Agnirva.com) -->
+  <div class="Agnirvamodal-content">
+    <button class="Agnirvaclose-btn" onclick="AgnirvacloseModal()">×</button> <!-- Button to close the modal (Commented by Agnirva.com) -->
+    <h2>Complete Booking</h2> <!-- Modal header (Commented by Agnirva.com) -->
+    <p>Hotel: <span id="AgnirvamodalHotelName"></span></p> <!-- Displays selected hotel name (Commented by Agnirva.com) -->
+    <p>Location: <span id="AgnirvamodalHotelLocation"></span></p> <!-- Displays selected hotel location (Commented by Agnirva.com) -->
+    <label for="AgnirvaguestNameInput">Your Name</label> <!-- Label for user's name input (Commented by Agnirva.com) -->
+    <input type="text" id="AgnirvaguestNameInput" placeholder="John Doe" required /> <!-- Input for user's name (Commented by Agnirva.com) -->
+    <label for="AgnirvaguestEmailInput">Your Email</label> <!-- Label for user's email input (Commented by Agnirva.com) -->
+    <input type="email" id="AgnirvaguestEmailInput" placeholder="john@example.com" required /> <!-- Input for user's email (Commented by Agnirva.com) -->
+    <button id="AgnirvaconfirmBookingBtn">Confirm Booking</button> <!-- Button to confirm the booking (Commented by Agnirva.com) -->
+  </div>
+</div>
+
+<script>
+  // Mock hotel data
+  const Agnirvahotels = [ <!-- Array containing hotel information (Commented by Agnirva.com) -->
+    {
+      name: "Seaside Resort",
+      location: "Miami Beach, FL",
+      img: "https://source.unsplash.com/600x400/?hotel,beach",
+      price: "$150/night",
+      description: "Beautiful beachside resort with stunning ocean views."
+    },
+    {
+      name: "Mountain View Inn",
+      location: "Aspen, CO",
+      img: "https://source.unsplash.com/600x400/?mountain,hotel",
+      price: "$200/night",
+      description: "Cozy hotel with scenic mountain vistas and warm hospitality."
+    },
+    {
+      name: "City Central Hotel",
+      location: "New York, NY",
+      img: "https://source.unsplash.com/600x400/?city,hotel",
+      price: "$180/night",
+      description: "Modern hotel located in the heart of the city."
+    },
+    {
+      name: "Desert Oasis Lodge",
+      location: "Phoenix, AZ",
+      img: "https://source.unsplash.com/600x400/?desert,hotel",
+      price: "$120/night",
+      description: "Tranquil desert lodge with a serene environment."
+    },
+    {
+      name: "Lakeside Retreat",
+      location: "Lake Tahoe, CA",
+      img: "https://source.unsplash.com/600x400/?lake,hotel",
+      price: "$220/night",
+      description: "Relaxing lakeside resort, perfect for a weekend getaway."
+    },
+    {
+      name: "Historic Downtown Inn",
+      location: "Boston, MA",
+      img: "https://source.unsplash.com/600x400/?historic,hotel",
+      price: "$160/night",
+      description: "Charming inn with rich history and elegant rooms."
+    }
+  ];
+
+  const AgnirvahotelsList = document.getElementById('AgnirvahotelsList'); // Reference to the hotels list container (Commented by Agnirva.com)
+  const AgnirvabookingsTable = document.getElementById('AgnirvabookingsTable').querySelector('tbody'); // Reference to the bookings table body (Commented by Agnirva.com)
+  const AgnirvabookingsModal = document.getElementById('AgnirvabookingsModal'); // Reference to the bookings modal (Commented by Agnirva.com)
+  const AgnirvamodalHotelName = document.getElementById('AgnirvamodalHotelName'); // Reference to hotel name span in modal (Commented by Agnirva.com)
+  const AgnirvamodalHotelLocation = document.getElementById('AgnirvamodalHotelLocation'); // Reference to hotel location span in modal (Commented by Agnirva.com)
+  const AgnirvaguestNameInput = document.getElementById('AgnirvaguestNameInput'); // Reference to guest name input field (Commented by Agnirva.com)
+  const AgnirvaguestEmailInput = document.getElementById('AgnirvaguestEmailInput'); // Reference to guest email input field (Commented by Agnirva.com)
+  const AgnirvaconfirmBookingBtn = document.getElementById('AgnirvaconfirmBookingBtn'); // Reference to confirm booking button (Commented by Agnirva.com)
+  const AgnirvaclearBookingsBtn = document.getElementById('AgnirvaclearBookingsBtn'); // Reference to clear bookings button (Commented by Agnirva.com)
+
+  let AgnirvaselectedHotel = null; // Variable to store the selected hotel (Commented by Agnirva.com)
+  let AgnirvasearchParams = { // Object to store search parameters (Commented by Agnirva.com) -->
+    location: "",
+    checkIn: "",
+    checkOut: "",
+    guests: 2
+  };
+
+  // Load bookings from local storage
+  const AgnirvasavedBookings = JSON.parse(localStorage.getItem('bookings')) || []; // Retrieves saved bookings or initializes an empty array (Commented by Agnirva.com)
+
+  function AgnirvarennderHotels(filteredHotels) { // <!-- Function to render hotel cards (Commented by Agnirva.com) -->
+    AgnirvahotelsList.innerHTML = ''; // Clears existing hotel listings (Commented by Agnirva.com)
+    filteredHotels.forEach(hotel => { // <!-- Iterates over each hotel in the filtered list (Commented by Agnirva.com) -->
+      const Agnirvacard = document.createElement('div'); // Creates a new div for the hotel card (Commented by Agnirva.com)
+      Agnirvacard.classList.add('Agnirvahotel-card'); // Adds the hotel card class (Commented by Agnirva.com)
+      Agnirvacard.innerHTML = `
+        <img src="${hotel.img}" alt="${hotel.name}"> <!-- Displays hotel image (Commented by Agnirva.com) -->
+        <div class="Agnirvahotel-info">
+          <h3>${hotel.name}</h3> <!-- Displays hotel name (Commented by Agnirva.com) -->
+          <p>${hotel.description}</p> <!-- Displays hotel description (Commented by Agnirva.com) -->
+          <p class="Agnirvaprice">${hotel.price}</p> <!-- Displays hotel price (Commented by Agnirva.com) -->
+          <button onclick="AgnirvastartBooking('${hotel.name}', '${hotel.location}')">Book</button> <!-- Button to initiate booking (Commented by Agnirva.com) -->
+        </div>
+      `;
+      AgnirvahotelsList.appendChild(Agnirvacard); // Adds the hotel card to the hotels list container (Commented by Agnirva.com)
+    });
+  }
+
+  function AgnirvadisplayBookings() { // <!-- Function to display user bookings (Commented by Agnirva.com) -->
+    AgnirvabookingsTable.innerHTML = ''; // Clears existing bookings in the table (Commented by Agnirva.com)
+    AgnirvasavedBookings.forEach(booking => { // <!-- Iterates over each saved booking (Commented by Agnirva.com) -->
+      const Agnirvatr = document.createElement('tr'); // Creates a new table row for the booking (Commented by Agnirva.com)
+      Agnirvatr.innerHTML = `
+        <td>${booking.hotel}</td> <!-- Displays booked hotel name (Commented by Agnirva.com) -->
+        <td>${booking.location}</td> <!-- Displays booked hotel location (Commented by Agnirva.com) -->
+        <td>${booking.checkIn}</td> <!-- Displays check-in date (Commented by Agnirva.com) -->
+        <td>${booking.checkOut}</td> <!-- Displays check-out date (Commented by Agnirva.com) -->
+        <td>${booking.guests}</td> <!-- Displays number of guests (Commented by Agnirva.com) -->
+      `;
+      AgnirvabookingsTable.appendChild(Agnirvatr); // Adds the booking row to the table (Commented by Agnirva.com)
+    });
+  }
+
+  function AgnirvaopenModal(hotelName, hotelLocation) { //<!-- Function to open the booking modal (Commented by Agnirva.com) -->
+    AgnirvamodalHotelName.textContent = hotelName; // Sets the hotel name in the modal (Commented by Agnirva.com)
+    AgnirvamodalHotelLocation.textContent = hotelLocation; // Sets the hotel location in the modal (Commented by Agnirva.com)
+    AgnirvabookingsModal.style.display = 'flex'; // Displays the modal (Commented by Agnirva.com)
+  }
+
+  function AgnirvacloseModal() { //<!-- Function to close the booking modal (Commented by Agnirva.com) -->
+    AgnirvabookingsModal.style.display = 'none'; // Hides the modal (Commented by Agnirva.com)
+  }
+
+  function AgnirvastartBooking(hotelName, hotelLocation) { //<!-- Function to initiate booking process (Commented by Agnirva.com) -->
+    AgnirvaselectedHotel = { name: hotelName, location: hotelLocation }; // Stores the selected hotel details (Commented by Agnirva.com)
+    AgnirvaopenModal(hotelName, hotelLocation); // Opens the booking modal with selected hotel details (Commented by Agnirva.com)
+  }
+
+  AgnirvaconfirmBookingBtn.addEventListener('click', () => { //<!-- Event listener for confirming a booking (Commented by Agnirva.com) -->
+    const AgnirvaguestName = AgnirvaguestNameInput.value.trim(); // Retrieves and trims guest name input (Commented by Agnirva.com)
+    const AgnirvaguestEmail = AgnirvaguestEmailInput.value.trim(); // Retrieves and trims guest email input (Commented by Agnirva.com)
+
+    if(!AgnirvaguestName || !AgnirvaguestEmail) { //<!-- Checks if name and email are provided (Commented by Agnirva.com) -->
+      alert("Please fill out your name and email."); // Alerts the user to fill in required fields (Commented by Agnirva.com)
+      return;
+    }
+
+    const AgnirvanewBooking = { //<!-- Creates a new booking object (Commented by Agnirva.com) -->
+      hotel: AgnirvaselectedHotel.name,
+      location: AgnirvaselectedHotel.location,
+      checkIn: AgnirvasearchParams.checkIn,
+      checkOut: AgnirvasearchParams.checkOut,
+      guests: AgnirvasearchParams.guests
+    };
+
+    AgnirvasavedBookings.push(AgnirvanewBooking); // Adds the new booking to saved bookings (Commented by Agnirva.com)
+    localStorage.setItem('bookings', JSON.stringify(AgnirvasavedBookings)); // Saves updated bookings to local storage (Commented by Agnirva.com)
+    AgnirvadisplayBookings(); // Refreshes the bookings display (Commented by Agnirva.com)
+    AgnirvacloseModal(); // Closes the booking modal (Commented by Agnirva.com)
+    AgnirvaguestNameInput.value = ''; // Clears the guest name input field (Commented by Agnirva.com)
+    AgnirvaguestEmailInput.value = ''; // Clears the guest email input field (Commented by Agnirva.com)
+    alert("Your booking is confirmed!"); // Alerts the user of successful booking (Commented by Agnirva.com)
+  });
+
+  AgnirvaclearBookingsBtn.addEventListener('click', () => { // <!-- Event listener for clearing all bookings (Commented by Agnirva.com) -->
+    if (confirm("Are you sure you want to clear all bookings?")) { //<!-- Prompts user for confirmation (Commented by Agnirva.com) -->
+      localStorage.removeItem('bookings'); // Removes bookings from local storage (Commented by Agnirva.com)
+      while (AgnirvabookingsTable.firstChild) { //<!-- Removes all child elements from the bookings table (Commented by Agnirva.com) -->
+        AgnirvabookingsTable.removeChild(AgnirvabookingsTable.firstChild);
+      }
+      AgnirvasavedBookings.length = 0; // Clears the saved bookings array (Commented by Agnirva.com)
+    }
+  });
+
+  // Initial render
+  AgnirvarennderHotels(Agnirvahotels); // Renders all hotels on initial load (Commented by Agnirva.com)
+  AgnirvadisplayBookings(); // Displays any existing bookings on initial load (Commented by Agnirva.com)
+
+  // Search functionality
+  document.getElementById('AgnirvasearchBtn').addEventListener('click', () => { //<!-- Event listener for the search button (Commented by Agnirva.com) -->
+    const AgnirvalocationValue = document.getElementById('AgnirvalocationInput').value.trim().toLowerCase(); // Retrieves and processes location input (Commented by Agnirva.com)
+    const AgnirvacheckInValue = document.getElementById('AgnirvacheckInInput').value; // Retrieves check-in date (Commented by Agnirva.com)
+    const AgnirvacheckOutValue = document.getElementById('AgnirvacheckOutInput').value; // Retrieves check-out date (Commented by Agnirva.com)
+    const AgnirvaguestsValue = document.getElementById('AgnirvaguestsInput').value; // Retrieves number of guests (Commented by Agnirva.com)
+
+    AgnirvasearchParams.location = AgnirvalocationValue; // Updates search parameters with location (Commented by Agnirva.com)
+    AgnirvasearchParams.checkIn = AgnirvacheckInValue; // Updates search parameters with check-in date (Commented by Agnirva.com)
+    AgnirvasearchParams.checkOut = AgnirvacheckOutValue; // Updates search parameters with check-out date (Commented by Agnirva.com)
+    AgnirvasearchParams.guests = AgnirvaguestsValue; // Updates search parameters with number of guests (Commented by Agnirva.com)
+
+    const Agnirvafiltered = Agnirvahotels.filter(h =>  //<!-- Filters hotels based on search criteria (Commented by Agnirva.com) -->
+      h.location.toLowerCase().includes(AgnirvalocationValue) || AgnirvalocationValue === ""
+    );
+    AgnirvarennderHotels(Agnirvafiltered); // Renders the filtered list of hotels (Commented by Agnirva.com)
+  });
+</script>
+</body>
+</html>

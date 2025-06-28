@@ -1,0 +1,58 @@
+<!-- templates/index.html -->
+{% extends 'base.html' %}  <!-- Extends the base template for consistent structure across pages (Commented by Agnirva.com) -->
+
+{% block content %}
+    {% for post in posts %}  <!-- Loop through each post in the posts list (Commented by Agnirva.com) -->
+        <div class="post">
+            <div class="d-flex align-items-center mb-3">
+                <!-- Display the author's avatar dynamically based on username (Commented by Agnirva.com) -->
+                <img src="{{ url_for('static', filename='uploads/' + post.author.username + '.jpg') }}" alt="Avatar" class="rounded-circle me-2" width="50" height="50">
+                <!-- Link to the author's profile using their unique ID (Commented by Agnirva.com) -->
+                <a href="{{ url_for('profile', agnirvauuser_id=post.author.id) }}" class="text-decoration-none fw-bold">{{ post.author.username }}</a>
+            </div>
+            <div class="mb-3">
+                <!-- Display the image associated with the post (Commented by Agnirva.com) -->
+                <img src="{{ url_for('static', filename='uploads/' + post.image_file) }}" alt="Post Image" class="img-fluid rounded">
+            </div>
+            {% if post.caption %}
+                <!-- Display the caption if it exists for the post (Commented by Agnirva.com) -->
+                <p class="caption"><i class="fas fa-pen"></i> {{ post.caption }}</p>
+            {% endif %}
+            <div class="actions d-flex align-items-center">
+                <!-- Like button form, which sends a POST request to like the post (Commented by Agnirva.com) -->
+                <form action="{{ url_for('like', agnirvapost_id=post.id) }}" method="POST" class="me-3">
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-heart"></i> Like ({{ post.likes }})</button>
+                </form>
+                <!-- Button to toggle the comment input section (Commented by Agnirva.com) -->
+                <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComment{{ post.id }}" aria-expanded="false" aria-controls="collapseComment{{ post.id }}">
+                    <i class="fas fa-comments"></i> Comment
+                </button>
+            </div>
+            <!-- Comment Form -->
+            <div class="collapse mt-3" id="collapseComment{{ post.id }}">
+                <!-- Form to add a comment to the post, sending a POST request (Commented by Agnirva.com) -->
+                <form action="{{ url_for('comment', agnirvapost_id=post.id) }}" method="POST">
+                    <div class="input-group">
+                        <!-- Input field for the comment text (Commented by Agnirva.com) -->
+                        <input type="text" name="comment" class="form-control" placeholder="Add a comment..." required>
+                        <!-- Button to submit the comment (Commented by Agnirva.com) -->
+                        <button class="btn btn-success" type="submit"><i class="fas fa-paper-plane"></i> Post</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Comments Section -->
+            <div class="comment-section mt-3">
+                <h6><i class="fas fa-comments"></i> Comments:</h6>
+                {% for comment in post.comments %}  <!-- Loop through each comment associated with the post (Commented by Agnirva.com) -->
+                    <p><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</p>
+                {% else %}
+                    <!-- Display message if there are no comments (Commented by Agnirva.com) -->
+                    <p>No comments yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <!-- Display message if there are no posts available (Commented by Agnirva.com) -->
+        <p>No posts available. Be the first to <a href="{{ url_for('upload') }}">upload a post</a>!</p>
+    {% endfor %}
+{% endblock %}

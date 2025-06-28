@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple To-Do List</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>My To-Do List</h1>
+  <form id="Agnirva_taskForm">
+    <input type="text" id="Agnirva_taskTitle" placeholder="Task Title" required />
+    <input type="text" id="Agnirva_taskCategory" placeholder="Category" required />
+    <select id="Agnirva_taskPriority" required>
+      <option value="">Priority</option>
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+    <input type="date" id="Agnirva_taskDeadline" required />
+    <button type="submit" class="save-btn">Add Task</button>
+  </form>
+
+  <table id="Agnirva_taskTable">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Deadline</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="Agnirva_taskBody"></tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>

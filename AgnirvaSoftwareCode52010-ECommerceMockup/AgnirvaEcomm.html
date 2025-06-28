@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /> <!-- Sets the character encoding for the document (Commented by Agnirva.com) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- Ensures proper rendering and touch zooming on mobile devices (Commented by Agnirva.com) -->
+<title>Advanced E-Commerce Store</title> <!-- Title of the webpage displayed in the browser tab (Commented by Agnirva.com) -->
+<style>
+  :root {
+    --bg-color: #f8f8f8; /* Default background color (Commented by Agnirva.com) */
+    --text-color: #333; /* Default text color (Commented by Agnirva.com) */
+    --card-bg: #fff; /* Background color for cards (Commented by Agnirva.com) */
+    --highlight-color: #ff5722; /* Highlight color for buttons and accents (Commented by Agnirva.com) */
+    --header-footer-bg: #222; /* Background color for header and footer (Commented by Agnirva.com) */
+    --header-footer-text: #fff; /* Text color for header and footer (Commented by Agnirva.com) */
+    --border-color: #ddd; /* Default border color (Commented by Agnirva.com) */
+  }
+
+  [data-theme="dark"] {
+    --bg-color: #111; /* Background color for dark theme (Commented by Agnirva.com) */
+    --text-color: #eee; /* Text color for dark theme (Commented by Agnirva.com) */
+    --card-bg: #222; /* Card background color for dark theme (Commented by Agnirva.com) */
+    --highlight-color: #ff5722; /* Highlight color remains the same in dark theme (Commented by Agnirva.com) */
+    --header-footer-bg: #000; /* Header and footer background for dark theme (Commented by Agnirva.com) */
+    --header-footer-text: #fff; /* Header and footer text color for dark theme (Commented by Agnirva.com) */
+    --border-color: #444; /* Border color for dark theme (Commented by Agnirva.com) */
+  }
+
+  body {
+    margin: 0; /* Removes default margin (Commented by Agnirva.com) */
+    padding: 0; /* Removes default padding (Commented by Agnirva.com) */
+    background: var(--bg-color); /* Sets background color using CSS variable (Commented by Agnirva.com) */
+    color: var(--text-color); /* Sets text color using CSS variable (Commented by Agnirva.com) */
+    font-family: Arial, sans-serif; /* Sets the font family for the document (Commented by Agnirva.com) */
+  }
+
+  header, footer {
+    background: var(--header-footer-bg); /* Sets background for header and footer (Commented by Agnirva.com) */
+    color: var(--header-footer-text); /* Sets text color for header and footer (Commented by Agnirva.com) */
+    padding: 10px 20px; /* Adds padding to header and footer (Commented by Agnirva.com) */
+    display: flex; /* Uses flexbox for layout (Commented by Agnirva.com) */
+    align-items: center; /* Vertically centers items in header and footer (Commented by Agnirva.com) */
+    justify-content: space-between; /* Spaces items evenly in header and footer (Commented by Agnirva.com) */
+  }
+
+  header h1, footer p {
+    margin: 0; /* Removes default margin for header title and footer paragraph (Commented by Agnirva.com) */
+  }
+
+  #theme-toggle {
+    background: none; /* Removes default background (Commented by Agnirva.com) */
+    border: 1px solid var(--header-footer-text); /* Adds border using CSS variable (Commented by Agnirva.com) */
+    color: var(--header-footer-text); /* Sets text color using CSS variable (Commented by Agnirva.com) */
+    padding: 5px 10px; /* Adds padding to the button (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of the button (Commented by Agnirva.com) */
+  }
+
+  main {
+    display: flex; /* Uses flexbox for main content layout (Commented by Agnirva.com) */
+    flex-wrap: wrap; /* Allows items to wrap to the next line (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding to main content (Commented by Agnirva.com) */
+  }
+
+  #sidebar {
+    width: 250px; /* Sets fixed width for sidebar (Commented by Agnirva.com) */
+    max-width: 100%; /* Ensures sidebar doesn't exceed container width (Commented by Agnirva.com) */
+    margin-right: 20px; /* Adds space to the right of sidebar (Commented by Agnirva.com) */
+  }
+
+  #sidebar section {
+    background: var(--card-bg); /* Sets background for sidebar sections (Commented by Agnirva.com) */
+    border: 1px solid var(--border-color); /* Adds border using CSS variable (Commented by Agnirva.com) */
+    padding: 10px; /* Adds padding to sidebar sections (Commented by Agnirva.com) */
+    margin-bottom: 20px; /* Adds space below each section (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of sidebar sections (Commented by Agnirva.com) */
+  }
+
+  #sidebar h2 {
+    margin-top: 0; /* Removes top margin for sidebar headings (Commented by Agnirva.com) */
+  }
+
+  #sidebar input[type="text"], #sidebar select {
+    width: 100%; /* Sets input and select elements to full width (Commented by Agnirva.com) */
+    padding: 5px; /* Adds padding to input and select elements (Commented by Agnirva.com) */
+    margin-bottom: 10px; /* Adds space below input and select elements (Commented by Agnirva.com) */
+  }
+
+  #product-list {
+    flex: 1; /* Allows product list to take remaining space (Commented by Agnirva.com) */
+    display: grid; /* Uses CSS grid for product layout (Commented by Agnirva.com) */
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); /* Defines responsive grid columns (Commented by Agnirva.com) */
+    gap: 20px; /* Adds space between grid items (Commented by Agnirva.com) */
+  }
+
+  .product {
+    background: var(--card-bg); /* Sets background for product cards (Commented by Agnirva.com) */
+    border: 1px solid var(--border-color); /* Adds border using CSS variable (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of product cards (Commented by Agnirva.com) */
+    padding: 10px; /* Adds padding to product cards (Commented by Agnirva.com) */
+    display: flex; /* Uses flexbox for product card layout (Commented by Agnirva.com) */
+    flex-direction: column; /* Stacks child elements vertically (Commented by Agnirva.com) */
+    justify-content: space-between; /* Spaces child elements evenly (Commented by Agnirva.com) */
+  }
+
+  .product img {
+    width: 100%; /* Sets image width to fill the product card (Commented by Agnirva.com) */
+    height: auto; /* Maintains aspect ratio of images (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of product images (Commented by Agnirva.com) */
+    margin-bottom: 10px; /* Adds space below images (Commented by Agnirva.com) */
+  }
+
+  .product .name {
+    font-weight: bold; /* Makes product names bold (Commented by Agnirva.com) */
+    margin-bottom: 5px; /* Adds space below product names (Commented by Agnirva.com) */
+  }
+
+  .product .price {
+    color: var(--highlight-color); /* Sets price color using highlight color (Commented by Agnirva.com) */
+    font-weight: bold; /* Makes prices bold (Commented by Agnirva.com) */
+    margin-bottom: 5px; /* Adds space below prices (Commented by Agnirva.com) */
+  }
+
+  .product .category, .product .rating {
+    font-size: 0.9em; /* Sets smaller font size for category and rating (Commented by Agnirva.com) */
+    color: #666; /* Sets color for category and rating text (Commented by Agnirva.com) */
+    margin-bottom: 5px; /* Adds space below category and rating (Commented by Agnirva.com) */
+  }
+
+  .product button, #checkout-btn, #apply-coupon, #theme-toggle {
+    background: var(--highlight-color); /* Sets background color for buttons (Commented by Agnirva.com) */
+    color: #fff; /* Sets text color for buttons to white (Commented by Agnirva.com) */
+    border: none; /* Removes default button border (Commented by Agnirva.com) */
+    padding: 7px 10px; /* Adds padding to buttons (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of buttons (Commented by Agnirva.com) */
+    font-size: 0.9em; /* Sets smaller font size for buttons (Commented by Agnirva.com) */
+    margin-top: 5px; /* Adds space above buttons (Commented by Agnirva.com) */
+  }
+
+  #cart-section {
+    background: var(--card-bg); /* Sets background for cart section (Commented by Agnirva.com) */
+    border: 1px solid var(--border-color); /* Adds border using CSS variable (Commented by Agnirva.com) */
+    padding: 10px; /* Adds padding to cart section (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of cart section (Commented by Agnirva.com) */
+    max-width: 300px; /* Sets maximum width for cart section (Commented by Agnirva.com) */
+  }
+
+  #cart-section h2 {
+    margin-top: 0; /* Removes top margin for cart heading (Commented by Agnirva.com) */
+  }
+
+  #cart-items div {
+    margin-bottom: 10px; /* Adds space below each cart item (Commented by Agnirva.com) */
+  }
+
+  #cart-items img {
+    width: 30px; /* Sets width for cart item images (Commented by Agnirva.com) */
+    height: 30px; /* Sets height for cart item images (Commented by Agnirva.com) */
+    vertical-align: middle; /* Vertically aligns images in the middle (Commented by Agnirva.com) */
+    margin-right: 5px; /* Adds space to the right of images (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of cart item images (Commented by Agnirva.com) */
+  }
+
+  .line-item {
+    display: flex; /* Uses flexbox for line items (Commented by Agnirva.com) */
+    justify-content: space-between; /* Spaces elements evenly in line items (Commented by Agnirva.com) */
+    align-items: center; /* Vertically centers elements in line items (Commented by Agnirva.com) */
+  }
+
+  .line-item button {
+    background: var(--highlight-color); /* Sets background color for line item buttons (Commented by Agnirva.com) */
+    color: #fff; /* Sets text color for line item buttons to white (Commented by Agnirva.com) */
+    border: none; /* Removes default button border (Commented by Agnirva.com) */
+    padding: 2px 5px; /* Adds padding to line item buttons (Commented by Agnirva.com) */
+    margin-left: 5px; /* Adds space to the left of buttons (Commented by Agnirva.com) */
+    border-radius: 3px; /* Rounds the corners of line item buttons (Commented by Agnirva.com) */
+    font-size: 0.8em; /* Sets smaller font size for line item buttons (Commented by Agnirva.com) */
+  }
+
+  #wishlist-section {
+    background: var(--card-bg); /* Sets background for wishlist section (Commented by Agnirva.com) */
+    border: 1px solid var(--border-color); /* Adds border using CSS variable (Commented by Agnirva.com) */
+    padding: 10px; /* Adds padding to wishlist section (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of wishlist section (Commented by Agnirva.com) */
+    max-width: 300px; /* Sets maximum width for wishlist section (Commented by Agnirva.com) */
+    margin-top: 20px; /* Adds space above wishlist section (Commented by Agnirva.com) */
+  }
+
+  #wishlist-items div {
+    margin-bottom: 5px; /* Adds space below each wishlist item (Commented by Agnirva.com) */
+  }
+
+  #checkout-form {
+    display: none; /* Hides checkout form by default (Commented by Agnirva.com) */
+    position: fixed; /* Positions checkout form relative to the viewport (Commented by Agnirva.com) */
+    top: 50%; /* Centers form vertically (Commented by Agnirva.com) */
+    left: 50%; /* Centers form horizontally (Commented by Agnirva.com) */
+    transform: translate(-50%,-50%); /* Adjusts position to perfectly center the form (Commented by Agnirva.com) */
+    background: var(--card-bg); /* Sets background for checkout form (Commented by Agnirva.com) */
+    color: var(--text-color); /* Sets text color for checkout form (Commented by Agnirva.com) */
+    border: 1px solid var(--border-color); /* Adds border using CSS variable (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding to checkout form (Commented by Agnirva.com) */
+    z-index: 999; /* Ensures checkout form appears above other elements (Commented by Agnirva.com) */
+    max-width: 300px; /* Sets maximum width for checkout form (Commented by Agnirva.com) */
+    border-radius: 10px; /* Rounds the corners of checkout form (Commented by Agnirva.com) */
+  }
+
+  #checkout-form h3 {
+    margin-top: 0; /* Removes top margin for checkout form heading (Commented by Agnirva.com) */
+  }
+
+  #checkout-form input[type="text"], #checkout-form input[type="email"] {
+    width: 100%; /* Sets input fields to full width (Commented by Agnirva.com) */
+    padding: 5px; /* Adds padding to input fields (Commented by Agnirva.com) */
+    margin-bottom: 10px; /* Adds space below input fields (Commented by Agnirva.com) */
+  }
+
+  #checkout-form button {
+    margin-top: 10px; /* Adds space above checkout button (Commented by Agnirva.com) */
+  }
+
+  #close-checkout {
+    background: #aaa; /* Sets background color for close button (Commented by Agnirva.com) */
+    color: #fff; /* Sets text color for close button to white (Commented by Agnirva.com) */
+    float: right; /* Floats close button to the right (Commented by Agnirva.com) */
+    margin-top: -10px; /* Adjusts top margin for positioning (Commented by Agnirva.com) */
+    margin-right: -10px; /* Adjusts right margin for positioning (Commented by Agnirva.com) */
+    border-radius: 50%; /* Makes close button circular (Commented by Agnirva.com) */
+    border: none; /* Removes default button border (Commented by Agnirva.com) */
+    width: 25px; /* Sets width for close button (Commented by Agnirva.com) */
+    height: 25px; /* Sets height for close button (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+  }
+
+  #toast {
+    position: fixed; /* Positions toast relative to the viewport (Commented by Agnirva.com) */
+    bottom: 20px; /* Sets position from the bottom (Commented by Agnirva.com) */
+    right: 20px; /* Sets position from the right (Commented by Agnirva.com) */
+    background: var(--highlight-color); /* Sets background color for toast (Commented by Agnirva.com) */
+    color: #fff; /* Sets text color for toast to white (Commented by Agnirva.com) */
+    padding: 10px 15px; /* Adds padding to toast (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of toast (Commented by Agnirva.com) */
+    z-index: 9999; /* Ensures toast appears above other elements (Commented by Agnirva.com) */
+    display: none; /* Hides toast by default (Commented by Agnirva.com) */
+    font-size: 0.9em; /* Sets font size for toast (Commented by Agnirva.com) */
+  }
+
+  footer {
+    text-align: center; /* Centers footer text (Commented by Agnirva.com) */
+  }
+
+  @media (max-width: 800px) { /* Responsive design for screens smaller than 800px (Commented by Agnirva.com) */
+    main {
+      flex-direction: column; /* Stacks main content vertically on small screens (Commented by Agnirva.com) */
+    }
+    #sidebar {
+      margin-right: 0; /* Removes right margin for sidebar on small screens (Commented by Agnirva.com) */
+      margin-bottom: 20px; /* Adds bottom margin for sidebar on small screens (Commented by Agnirva.com) */
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>SuperShop</h1> <!-- Website title in the header (Commented by Agnirva.com) -->
+  <button id="theme-toggle">Toggle Theme</button> <!-- Button to toggle between light and dark themes (Commented by Agnirva.com) -->
+</header>
+
+<main>
+  <div id="sidebar">
+    <section>
+      <h2>Filters</h2> <!-- Section heading for product filters (Commented by Agnirva.com) -->
+      <input type="text" id="search" placeholder="Search products..."> <!-- Search input for filtering products (Commented by Agnirva.com) -->
+      <select id="category-filter"> <!-- Dropdown for category filtering (Commented by Agnirva.com) -->
+        <option value="">All Categories</option> <!-- Option to show all categories (Commented by Agnirva.com) -->
+      </select>
+      <select id="sort-by"> <!-- Dropdown for sorting products (Commented by Agnirva.com) -->
+        <option value="name">Sort by Name</option> <!-- Option to sort by product name (Commented by Agnirva.com) -->
+        <option value="price">Sort by Price</option> <!-- Option to sort by product price (Commented by Agnirva.com) -->
+      </select>
+    </section>
+
+    <section id="cart-section">
+      <h2>Your Cart</h2> <!-- Section heading for the shopping cart (Commented by Agnirva.com) -->
+      <div id="cart-items"></div> <!-- Container for cart items (Commented by Agnirva.com) -->
+      <p><strong>Shipping:</strong> 
+        <select id="shipping"> <!-- Dropdown for selecting shipping options (Commented by Agnirva.com) -->
+          <option value="0">Standard ($0)</option> <!-- Standard shipping option (Commented by Agnirva.com) -->
+          <option value="5">Express ($5)</option> <!-- Express shipping option (Commented by Agnirva.com) -->
+          <option value="10">Overnight ($10)</option> <!-- Overnight shipping option (Commented by Agnirva.com) -->
+        </select>
+      </p>
+      <p><strong>Coupon Code:</strong></p> <!-- Label for coupon code input (Commented by Agnirva.com) -->
+      <input type="text" id="coupon-code" placeholder="Enter coupon code"> <!-- Input for entering coupon codes (Commented by Agnirva.com) -->
+      <button id="apply-coupon">Apply</button> <!-- Button to apply coupon code (Commented by Agnirva.com) -->
+      <p><strong>Total:</strong> $<span id="cart-total">0</span></p> <!-- Displays the total price of the cart (Commented by Agnirva.com) -->
+      <button id="checkout-btn">Checkout</button> <!-- Button to initiate checkout process (Commented by Agnirva.com) -->
+    </section>
+
+    <section id="wishlist-section">
+      <h2>Wishlist</h2> <!-- Section heading for the wishlist (Commented by Agnirva.com) -->
+      <div id="wishlist-items"></div> <!-- Container for wishlist items (Commented by Agnirva.com) -->
+    </section>
+  </div>
+
+  <div id="product-list"></div> <!-- Container for listing all products (Commented by Agnirva.com) -->
+</main>
+
+<div id="checkout-form">
+  <button id="close-checkout">&times;</button> <!-- Button to close the checkout form (Commented by Agnirva.com) -->
+  <h3>Checkout</h3> <!-- Checkout form heading (Commented by Agnirva.com) -->
+  <p>Please enter your shipping details:</p> <!-- Instruction for entering shipping details (Commented by Agnirva.com) -->
+  <input type="text" id="ship-name" placeholder="Full Name"> <!-- Input for full name (Commented by Agnirva.com) -->
+  <input type="email" id="ship-email" placeholder="Email"> <!-- Input for email address (Commented by Agnirva.com) -->
+  <input type="text" id="ship-address" placeholder="Address"> <!-- Input for street address (Commented by Agnirva.com) -->
+  <input type="text" id="ship-city" placeholder="City"> <!-- Input for city (Commented by Agnirva.com) -->
+  <input type="text" id="ship-zip" placeholder="ZIP Code"> <!-- Input for ZIP code (Commented by Agnirva.com) -->
+  <button id="place-order">Place Order</button> <!-- Button to place the order (Commented by Agnirva.com) -->
+</div>
+
+<div id="toast"></div> <!-- Container for toast notifications (Commented by Agnirva.com) -->
+
+<footer>
+  <p>&copy; 2024 SuperShop. All rights reserved.</p> <!-- Footer content with copyright (Commented by Agnirva.com) -->
+</footer>
+
+<script>
+// =======================
+// Data & Initialization
+// =======================
+const AgnirvadefaultProducts = [ // Array of default products (Commented by Agnirva.com)
+  { id: 1, name: "Widget A", price: 10, category: "Gadgets", rating: 4, img:"https://via.placeholder.com/200?text=Widget+A" },
+  { id: 2, name: "Widget B", price: 15, category: "Gadgets", rating: 3, img:"https://via.placeholder.com/200?text=Widget+B" },
+  { id: 3, name: "Widget C", price: 20, category: "Accessories", rating: 5, img:"https://via.placeholder.com/200?text=Widget+C" },
+  { id: 4, name: "Gizmo X", price: 25, category: "Gadgets", rating: 2, img:"https://via.placeholder.com/200?text=Gizmo+X" },
+  { id: 5, name: "Gizmo Y", price: 30, category: "Tools", rating: 4, img:"https://via.placeholder.com/200?text=Gizmo+Y" },
+  { id: 6, name: "Tool Z", price: 5, category: "Tools", rating: 5, img:"https://via.placeholder.com/200?text=Tool+Z" }
+];
+
+let Agnirvaproducts = [...AgnirvadefaultProducts]; // Clone of default products for manipulation (Commented by Agnirva.com)
+
+// Retrieve stored data from localStorage or initialize defaults (Commented by Agnirva.com)
+let Agnirvacart = JSON.parse(localStorage.getItem("cart")) || []; 
+let Agnirvawishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let AgnirvauseSettings = JSON.parse(localStorage.getItem("userSettings")) || {
+  theme: "light",
+  sortBy: "name",
+  category: "",
+  search: ""
+};
+
+document.documentElement.setAttribute("data-theme", AgnirvauseSettings.theme); // Sets the initial theme based on user settings (Commented by Agnirva.com)
+
+// =======================
+// DOM References
+// =======================
+const AgnirvapproductList = document.getElementById('product-list'); // Reference to product list container (Commented by Agnirva.com)
+const AgnirvacartItems = document.getElementById('cart-items'); // Reference to cart items container (Commented by Agnirva.com)
+const AgnirvawishlistItems = document.getElementById('wishlist-items'); // Reference to wishlist items container (Commented by Agnirva.com)
+const AgnirvacartTotal = document.getElementById('cart-total'); // Reference to cart total display (Commented by Agnirva.com)
+const AgnirvacategoryFilter = document.getElementById('category-filter'); // Reference to category filter dropdown (Commented by Agnirva.com)
+const AgnirvasearchInput = document.getElementById('search'); // Reference to search input field (Commented by Agnirva.com)
+const AgnirvasortBySelect = document.getElementById('sort-by'); // Reference to sort by dropdown (Commented by Agnirva.com)
+const AgnirvashippingSelect = document.getElementById('shipping'); // Reference to shipping selection dropdown (Commented by Agnirva.com)
+const AgnirvacouponInput = document.getElementById('coupon-code'); // Reference to coupon code input field (Commented by Agnirva.com)
+const Agnirvatoast = document.getElementById('toast'); // Reference to toast notification container (Commented by Agnirva.com)
+
+// =======================
+// Utility Functions
+// =======================
+function AgnirvasaveCart() { // Saves the current cart state to localStorage (Commented by Agnirva.com)
+  localStorage.setItem("cart", JSON.stringify(Agnirvacart));
+}
+
+function AgnirvasaveWishlist() { // Saves the current wishlist state to localStorage (Commented by Agnirva.com)
+  localStorage.setItem("wishlist", JSON.stringify(Agnirvawishlist));
+}
+
+function AgnirvasaveUserSettings() { // Saves user settings to localStorage (Commented by Agnirva.com)
+  localStorage.setItem("userSettings", JSON.stringify(AgnirvauseSettings));
+}
+
+function AgnirvashowToast(message) { // Displays a toast notification with the given message (Commented by Agnirva.com)
+  Agnirvatoast.innerText = message;
+  Agnirvatoast.style.display = 'block';
+  setTimeout(() => {
+    Agnirvatoast.style.display = 'none';
+  }, 2000); // Hides the toast after 2 seconds (Commented by Agnirva.com)
+}
+
+// =======================
+// Render Functions
+// =======================
+function AgnirvarenderProductList() { // Renders the list of products based on current filters and sorting (Commented by Agnirva.com)
+  let filteredProducts = Agnirvaproducts;
+
+  // Filtering by category
+  if (AgnirvauseSettings.category) { // Checks if a category filter is applied (Commented by Agnirva.com)
+    filteredProducts = filteredProducts.filter(p => p.category === AgnirvauseSettings.category); // Filters products by selected category (Commented by Agnirva.com)
+  }
+
+  // Searching
+  if (AgnirvauseSettings.search) { // Checks if a search query is entered (Commented by Agnirva.com)
+    filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(AgnirvauseSettings.search.toLowerCase())); // Filters products based on search query (Commented by Agnirva.com)
+  }
+
+  // Sorting
+  if (AgnirvauseSettings.sortBy === "price") { // Checks if sorting by price (Commented by Agnirva.com)
+    filteredProducts.sort((a,b) => a.price - b.price); // Sorts products in ascending order by price (Commented by Agnirva.com)
+  } else {
+    // sort by name
+    filteredProducts.sort((a,b) => a.name.localeCompare(b.name)); // Sorts products alphabetically by name (Commented by Agnirva.com)
+  }
+
+  AgnirvapproductList.innerHTML = ""; // Clears the current product list (Commented by Agnirva.com)
+  filteredProducts.forEach(product => { // Iterates over each filtered product (Commented by Agnirva.com)
+    const div = document.createElement('div'); // Creates a new div for the product (Commented by Agnirva.com)
+    div.className = 'product'; // Assigns the 'product' class to the div (Commented by Agnirva.com)
+    div.innerHTML = `
+      <img src="${product.img}" alt="${product.name}"> <!-- Product image (Commented by Agnirva.com) -->
+      <div class="name">${product.name}</div> <!-- Product name (Commented by Agnirva.com) -->
+      <div class="category">${product.category}</div> <!-- Product category (Commented by Agnirva.com) -->
+      <div class="rating">Rating: ${'★'.repeat(product.rating)}${'☆'.repeat(5 - product.rating)}</div> <!-- Product rating visual (Commented by Agnirva.com) -->
+      <div class="price">$${product.price}</div> <!-- Product price (Commented by Agnirva.com) -->
+      <button onclick="AgnirvaaddToCart(${product.id})">Add to Cart</button> <!-- Button to add product to cart (Commented by Agnirva.com) -->
+      <button onclick="AgnirvatoggleWishlist(${product.id})">${Agnirvawishlist.find(w => w.id === product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}</button> <!-- Button to add/remove product from wishlist (Commented by Agnirva.com) -->
+    `;
+    AgnirvapproductList.appendChild(div); // Adds the product div to the product list container (Commented by Agnirva.com)
+  });
+}
+
+function AgnirvarenderCart() { // Renders the shopping cart with current items (Commented by Agnirva.com)
+  AgnirvacartItems.innerHTML = ""; // Clears the current cart items display (Commented by Agnirva.com)
+  let total = 0; // Initializes total cost (Commented by Agnirva.com)
+  Agnirvacart.forEach(item => { // Iterates over each item in the cart (Commented by Agnirva.com)
+    const lineTotal = item.price * item.quantity; // Calculates total price for the item (Commented by Agnirva.com)
+    total += lineTotal; // Adds item's total to cart total (Commented by Agnirva.com)
+    const itemDiv = document.createElement('div'); // Creates a new div for the cart item (Commented by Agnirva.com)
+    itemDiv.className = 'line-item'; // Assigns the 'line-item' class to the div (Commented by Agnirva.com)
+    itemDiv.innerHTML = `
+      <span>
+        <img src="${item.img}" alt="${item.name}"> <!-- Cart item image (Commented by Agnirva.com) -->
+        ${item.name} x${item.quantity} - $${lineTotal} <!-- Cart item name, quantity, and total price (Commented by Agnirva.com) -->
+      </span>
+      <span>
+        <button onclick="AgnirvachangeQuantity(${item.id}, -1)">-</button> <!-- Button to decrease item quantity (Commented by Agnirva.com) -->
+        <button onclick="AgnirvachangeQuantity(${item.id}, 1)">+</button> <!-- Button to increase item quantity (Commented by Agnirva.com) -->
+        <button onclick="AgnirvaremoveFromCart(${item.id})">x</button> <!-- Button to remove item from cart (Commented by Agnirva.com) -->
+      </span>
+    `;
+    AgnirvacartItems.appendChild(itemDiv); // Adds the cart item div to the cart items container (Commented by Agnirva.com)
+  });
+
+  // Add shipping
+  const shippingCost = parseFloat(AgnirvashippingSelect.value) || 0; // Retrieves selected shipping cost (Commented by Agnirva.com)
+  total += shippingCost; // Adds shipping cost to total (Commented by Agnirva.com)
+
+  // Apply coupon
+  const coupon = AgnirvacouponInput.value.trim().toLowerCase(); // Retrieves and formats coupon code (Commented by Agnirva.com)
+  if (coupon === 'save10') { // Checks if coupon code is 'save10' (Commented by Agnirva.com)
+    total = total * 0.9; // Applies 10% discount (Commented by Agnirva.com)
+  }
+
+  AgnirvacartTotal.innerText = total.toFixed(2); // Updates the cart total display (Commented by Agnirva.com)
+}
+
+function AgnirvarenderWishlist() { // Renders the wishlist with current items (Commented by Agnirva.com)
+  AgnirvawishlistItems.innerHTML = ""; // Clears the current wishlist display (Commented by Agnirva.com)
+  if (Agnirvawishlist.length === 0) { // Checks if wishlist is empty (Commented by Agnirva.com)
+    AgnirvawishlistItems.innerHTML = "<p>No items in wishlist</p>"; // Displays message if wishlist is empty (Commented by Agnirva.com)
+    return;
+  }
+  Agnirvawishlist.forEach(item => { // Iterates over each item in the wishlist (Commented by Agnirva.com)
+    const div = document.createElement('div'); // Creates a new div for the wishlist item (Commented by Agnirva.com)
+    div.innerHTML = `
+      ${item.name} - $${item.price} <!-- Wishlist item name and price (Commented by Agnirva.com) -->
+      <button onclick="AgnirvatoggleWishlist(${item.id})">Remove</button> <!-- Button to remove item from wishlist (Commented by Agnirva.com) -->
+    `;
+    AgnirvawishlistItems.appendChild(div); // Adds the wishlist item div to the wishlist container (Commented by Agnirva.com)
+  });
+}
+
+function AgnirvarenderCategoryOptions() { // Renders category options in the filter dropdown (Commented by Agnirva.com)
+  // Extract categories
+  const categories = [...new Set(Agnirvaproducts.map(p => p.category))].sort(); // Extracts unique categories and sorts them (Commented by Agnirva.com)
+  AgnirvacategoryFilter.innerHTML = `<option value="">All Categories</option>`; // Resets category filter options (Commented by Agnirva.com)
+  categories.forEach(cat => { // Iterates over each category (Commented by Agnirva.com)
+    const opt = document.createElement('option'); // Creates a new option element (Commented by Agnirva.com)
+    opt.value = cat; // Sets the option value to the category name (Commented by Agnirva.com)
+    opt.textContent = cat; // Sets the display text to the category name (Commented by Agnirva.com)
+    AgnirvacategoryFilter.appendChild(opt); // Adds the option to the category filter dropdown (Commented by Agnirva.com)
+  });
+  AgnirvacategoryFilter.value = AgnirvauseSettings.category; // Sets the selected category based on user settings (Commented by Agnirva.com)
+}
+
+// =======================
+// Cart & Wishlist Functions
+// =======================
+function AgnirvaaddToCart(id) { // Adds a product to the cart (Commented by Agnirva.com)
+  const product = Agnirvaproducts.find(p => p.id === id); // Finds the product by ID (Commented by Agnirva.com)
+  if (!product) return; // Exits if product not found (Commented by Agnirva.com)
+  const existing = Agnirvacart.find(item => item.id === id); // Checks if product is already in cart (Commented by Agnirva.com)
+  if (existing) {
+    existing.quantity += 1; // Increases quantity if already in cart (Commented by Agnirva.com)
+  } else {
+    Agnirvacart.push({ ...product, quantity: 1 }); // Adds product to cart with quantity 1 (Commented by Agnirva.com)
+  }
+  AgnirvasaveCart(); // Saves updated cart to localStorage (Commented by Agnirva.com)
+  AgnirvarenderCart(); // Re-renders the cart display (Commented by Agnirva.com)
+  AgnirvashowToast("Item added to cart!"); // Shows confirmation toast (Commented by Agnirva.com)
+}
+
+function AgnirvaremoveFromCart(id) { // Removes a product from the cart (Commented by Agnirva.com)
+  const idx = Agnirvacart.findIndex(i => i.id === id); // Finds the index of the product in the cart (Commented by Agnirva.com)
+  if (idx > -1) {
+    Agnirvacart.splice(idx, 1); // Removes the product from the cart array (Commented by Agnirva.com)
+    AgnirvasaveCart(); // Saves updated cart to localStorage (Commented by Agnirva.com)
+    AgnirvarenderCart(); // Re-renders the cart display (Commented by Agnirva.com)
+    AgnirvashowToast("Item removed from cart."); // Shows confirmation toast (Commented by Agnirva.com)
+  }
+}
+
+function AgnirvachangeQuantity(id, delta) { // Changes the quantity of a product in the cart (Commented by Agnirva.com)
+  const item = Agnirvacart.find(i => i.id === id); // Finds the product in the cart (Commented by Agnirva.com)
+  if (!item) return; // Exits if product not found (Commented by Agnirva.com)
+  item.quantity += delta; // Adjusts the quantity based on delta (Commented by Agnirva.com)
+  if (item.quantity <= 0) { // Checks if quantity is zero or less (Commented by Agnirva.com)
+    AgnirvaremoveFromCart(id); // Removes the product if quantity is zero or less (Commented by Agnirva.com)
+  } else {
+    AgnirvasaveCart(); // Saves updated cart to localStorage (Commented by Agnirva.com)
+    AgnirvarenderCart(); // Re-renders the cart display (Commented by Agnirva.com)
+  }
+}
+
+function AgnirvatoggleWishlist(id) { // Toggles a product's presence in the wishlist (Commented by Agnirva.com)
+  const product = Agnirvaproducts.find(p => p.id === id); // Finds the product by ID (Commented by Agnirva.com)
+  if (!product) return; // Exits if product not found (Commented by Agnirva.com)
+  const existingIndex = Agnirvawishlist.findIndex(w => w.id === id); // Checks if product is already in wishlist (Commented by Agnirva.com)
+  if (existingIndex > -1) {
+    Agnirvawishlist.splice(existingIndex, 1); // Removes the product from wishlist if it exists (Commented by Agnirva.com)
+    AgnirvashowToast("Item removed from wishlist."); // Shows confirmation toast (Commented by Agnirva.com)
+  } else {
+    Agnirvawishlist.push(product); // Adds the product to wishlist if it doesn't exist (Commented by Agnirva.com)
+    AgnirvashowToast("Item added to wishlist!"); // Shows confirmation toast (Commented by Agnirva.com)
+  }
+  AgnirvasaveWishlist(); // Saves updated wishlist to localStorage (Commented by Agnirva.com)
+  AgnirvarenderWishlist(); // Re-renders the wishlist display (Commented by Agnirva.com)
+  AgnirvarenderProductList(); // Updates wishlist button text in product list (Commented by Agnirva.com)
+}
+
+// =======================
+// Checkout Functions
+// =======================
+const AgnirvacheckoutBtn = document.getElementById('checkout-btn'); // Reference to checkout button (Commented by Agnirva.com)
+const AgnirvacheckoutForm = document.getElementById('checkout-form'); // Reference to checkout form (Commented by Agnirva.com)
+const AgnirvacloseCheckout = document.getElementById('close-checkout'); // Reference to close checkout button (Commented by Agnirva.com)
+const AgnirvaplaceOrderBtn = document.getElementById('place-order'); // Reference to place order button (Commented by Agnirva.com)
+
+AgnirvacheckoutBtn.addEventListener('click', () => { // Event listener for checkout button click (Commented by Agnirva.com)
+  if (Agnirvacart.length === 0) { // Checks if cart is empty (Commented by Agnirva.com)
+    AgnirvashowToast("Your cart is empty."); // Shows toast if cart is empty (Commented by Agnirva.com)
+    return;
+  }
+  AgnirvacheckoutForm.style.display = 'block'; // Displays the checkout form (Commented by Agnirva.com)
+});
+
+AgnirvacloseCheckout.addEventListener('click', () => { // Event listener for closing checkout form (Commented by Agnirva.com)
+  AgnirvacheckoutForm.style.display = 'none'; // Hides the checkout form (Commented by Agnirva.com)
+});
+
+AgnirvaplaceOrderBtn.addEventListener('click', () => { // Event listener for placing the order (Commented by Agnirva.com)
+  // In a real app, you'd send this data to a server
+  const name = document.getElementById('ship-name').value; // Retrieves entered full name (Commented by Agnirva.com)
+  const email = document.getElementById('ship-email').value; // Retrieves entered email (Commented by Agnirva.com)
+  const address = document.getElementById('ship-address').value; // Retrieves entered address (Commented by Agnirva.com)
+  const city = document.getElementById('ship-city').value; // Retrieves entered city (Commented by Agnirva.com)
+  const zip = document.getElementById('ship-zip').value; // Retrieves entered ZIP code (Commented by Agnirva.com)
+
+  if (!name || !email || !address || !city || !zip) { // Validates that all fields are filled (Commented by Agnirva.com)
+    AgnirvashowToast("Please fill all shipping details."); // Shows error toast if validation fails (Commented by Agnirva.com)
+    return;
+  }
+
+  // Simulate order placement
+  Agnirvacart = []; // Clears the cart array (Commented by Agnirva.com)
+  AgnirvasaveCart(); // Saves the cleared cart to localStorage (Commented by Agnirva.com)
+  AgnirvarenderCart(); // Re-renders the cart display (Commented by Agnirva.com)
+  AgnirvacheckoutForm.style.display = 'none'; // Hides the checkout form (Commented by Agnirva.com)
+  AgnirvashowToast("Order placed successfully!"); // Shows success toast (Commented by Agnirva.com)
+});
+
+// =======================
+// Coupon & Shipping
+// =======================
+document.getElementById('apply-coupon').addEventListener('click', AgnirvarenderCart); // Applies coupon when button is clicked (Commented by Agnirva.com)
+AgnirvashippingSelect.addEventListener('change', AgnirvarenderCart); // Updates cart when shipping option changes (Commented by Agnirva.com)
+
+// =======================
+// Filters & Search
+// =======================
+AgnirvasearchInput.value = AgnirvauseSettings.search; // Sets search input value based on user settings (Commented by Agnirva.com)
+AgnirvasortBySelect.value = AgnirvauseSettings.sortBy; // Sets sort by dropdown based on user settings (Commented by Agnirva.com)
+
+AgnirvasearchInput.addEventListener('input', () => { // Event listener for search input changes (Commented by Agnirva.com)
+  AgnirvauseSettings.search = AgnirvasearchInput.value; // Updates search query in user settings (Commented by Agnirva.com)
+  AgnirvasaveUserSettings(); // Saves updated user settings to localStorage (Commented by Agnirva.com)
+  AgnirvarenderProductList(); // Re-renders the product list based on new search (Commented by Agnirva.com)
+});
+
+AgnirvacategoryFilter.addEventListener('change', () => { // Event listener for category filter changes (Commented by Agnirva.com)
+  AgnirvauseSettings.category = AgnirvacategoryFilter.value; // Updates selected category in user settings (Commented by Agnirva.com)
+  AgnirvasaveUserSettings(); // Saves updated user settings to localStorage (Commented by Agnirva.com)
+  AgnirvarenderProductList(); // Re-renders the product list based on new category (Commented by Agnirva.com)
+});
+
+AgnirvasortBySelect.addEventListener('change', () => { // Event listener for sort by dropdown changes (Commented by Agnirva.com)
+  AgnirvauseSettings.sortBy = AgnirvasortBySelect.value; // Updates sort option in user settings (Commented by Agnirva.com)
+  AgnirvasaveUserSettings(); // Saves updated user settings to localStorage (Commented by Agnirva.com)
+  AgnirvarenderProductList(); // Re-renders the product list based on new sort option (Commented by Agnirva.com)
+});
+
+// =======================
+// Theme Toggle
+// =======================
+const themeToggle = document.getElementById('theme-toggle'); // Reference to theme toggle button (Commented by Agnirva.com)
+themeToggle.addEventListener('click', () => { // Event listener for theme toggle button click (Commented by Agnirva.com)
+  AgnirvauseSettings.theme = (AgnirvauseSettings.theme === "light" ? "dark" : "light"); // Toggles theme between light and dark (Commented by Agnirva.com)
+  document.documentElement.setAttribute("data-theme", AgnirvauseSettings.theme); // Applies the new theme to the document (Commented by Agnirva.com)
+  AgnirvasaveUserSettings(); // Saves updated theme to user settings in localStorage (Commented by Agnirva.com)
+});
+
+// =======================
+// Initial Render
+// =======================
+AgnirvarenderCategoryOptions(); // Renders category filter options on page load (Commented by Agnirva.com)
+AgnirvarenderProductList(); // Renders the initial product list on page load (Commented by Agnirva.com)
+AgnirvarenderCart(); // Renders the cart on page load (Commented by Agnirva.com)
+AgnirvarenderWishlist(); // Renders the wishlist on page load (Commented by Agnirva.com)
+</script>
+</body>
+</html>

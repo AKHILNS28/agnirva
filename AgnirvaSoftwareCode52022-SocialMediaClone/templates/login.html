@@ -1,0 +1,24 @@
+<!-- templates/login.html -->
+{% extends 'base.html' %}  <!-- Inheriting the base HTML structure (Commented by Agnirva.com) -->
+
+{% block content %}  <!-- Defining the content block that will be inserted into the base layout (Commented by Agnirva.com) -->
+    <div class="row justify-content-center">  <!-- Creates a row to center the login form (Commented by Agnirva.com) -->
+        <div class="col-md-6">  <!-- Specifies that the login form will take up half the width of the screen on medium-sized devices (Commented by Agnirva.com) -->
+            <h2 class="mb-4"><i class="fas fa-sign-in-alt"></i> Login</h2>  <!-- Heading for the login page with an icon (Commented by Agnirva.com) -->
+            <div class="card p-4 shadow-sm">  <!-- A card layout with padding and shadow for visual emphasis (Commented by Agnirva.com) -->
+                <form method="POST">  <!-- Form that will send data using the POST method (Commented by Agnirva.com) -->
+                    <div class="mb-3">  <!-- Form group with margin at the bottom (Commented by Agnirva.com) -->
+                        <label for="username" class="form-label">Username</label>  <!-- Label for the username input field (Commented by Agnirva.com) -->
+                        <input type="text" name="username" class="form-control" id="username" placeholder="Enter your username" required>  <!-- Username input field with a placeholder and required attribute (Commented by Agnirva.com) -->
+                    </div>
+                    <div class="mb-4">  <!-- Form group with margin at the bottom (Commented by Agnirva.com) -->
+                        <label for="password" class="form-label">Password</label>  <!-- Label for the password input field (Commented by Agnirva.com) -->
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" required>  <!-- Password input field with a placeholder and required attribute (Commented by Agnirva.com) -->
+                    </div>
+                    <button type="submit" class="btn btn-success w-100"><i class="fas fa-sign-in-alt"></i> Login</button>  <!-- Login button with an icon, and full-width (Commented by Agnirva.com) -->
+                </form>
+            </div>
+            <p class="mt-3 text-center">Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>  <!-- A link to the registration page if the user doesn't have an account (Commented by Agnirva.com) -->
+        </div>
+    </div>
+{% endblock %}  <!-- Closing the content block (Commented by Agnirva.com) -->

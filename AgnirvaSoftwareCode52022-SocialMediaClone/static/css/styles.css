@@ -1,0 +1,89 @@
+/* static/css/style.css */
+
+/* Global Styles */
+body {
+    background-color: #f0f2f5; /* Sets a light background color for the page (Commented by Agnirva.com) */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Specifies a clean and modern font stack (Commented by Agnirva.com) */
+}
+
+/* Navbar Styles */
+.navbar-brand {
+    font-weight: bold; /* Makes the brand name bold for better emphasis (Commented by Agnirva.com) */
+    font-size: 1.5rem; /* Sets a larger font size for better visibility (Commented by Agnirva.com) */
+}
+
+.navbar-nav .nav-link {
+    margin-right: 1rem; /* Adds spacing between navigation links (Commented by Agnirva.com) */
+    transition: color 0.3s; /* Adds a smooth transition effect on hover (Commented by Agnirva.com) */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #adb5bd; /* Changes link color on hover for better feedback (Commented by Agnirva.com) */
+}
+
+/* Post Styles */
+.post {
+    background-color: #fff; /* Gives a white background to posts (Commented by Agnirva.com) */
+    border-radius: 10px; /* Rounds the corners of the post container (Commented by Agnirva.com) */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Adds a shadow for subtle depth (Commented by Agnirva.com) */
+    padding: 20px; /* Adds internal spacing within the post (Commented by Agnirva.com) */
+    margin-bottom: 30px; /* Creates vertical spacing between posts (Commented by Agnirva.com) */
+}
+
+.post img {
+    border-radius: 10px; /* Rounds the corners of images for consistency (Commented by Agnirva.com) */
+    max-height: 400px; /* Limits the height of images to prevent oversized displays (Commented by Agnirva.com) */
+    max-width: 700px; /* Restricts the width to maintain layout consistency (Commented by Agnirva.com) */
+    object-fit: cover; /* Ensures images fill their container proportionally (Commented by Agnirva.com) */
+    width: 100%; /* Makes the image responsive to the container width (Commented by Agnirva.com) */
+    height: auto; /* Maintains the aspect ratio of images (Commented by Agnirva.com) */
+    margin: 0 auto; /* Centers the image horizontally (Commented by Agnirva.com) */
+    display: block; /* Makes the image behave as a block element (Commented by Agnirva.com) */
+}
+
+.caption {
+    margin-top: 15px; /* Adds spacing above captions for readability (Commented by Agnirva.com) */
+    font-size: 1.1rem; /* Sets a slightly larger font size for captions (Commented by Agnirva.com) */
+}
+
+.actions {
+    margin-top: 10px; /* Adds spacing above action buttons (Commented by Agnirva.com) */
+}
+
+.actions button {
+    margin-right: 10px; /* Adds spacing between buttons for clarity (Commented by Agnirva.com) */
+}
+
+/* Comment Styles */
+.comment-section {
+    margin-top: 15px; /* Adds spacing above the comment section (Commented by Agnirva.com) */
+}
+
+.comment-section p {
+    background-color: #f8f9fa; /* Sets a light background for comments (Commented by Agnirva.com) */
+    border-radius: 15px; /* Rounds the corners of comment containers (Commented by Agnirva.com) */
+    padding: 10px 15px; /* Adds internal spacing to comments (Commented by Agnirva.com) */
+    margin-bottom: 10px; /* Separates comments vertically (Commented by Agnirva.com) */
+}
+
+.comment-section p .commenter {
+    font-weight: bold; /* Highlights commenter names (Commented by Agnirva.com) */
+    margin-right: 5px; /* Adds spacing between names and comment text (Commented by Agnirva.com) */
+}
+
+/* Form Styles */
+.form-control, .form-control-file {
+    border-radius: 20px; /* Rounds the corners of input fields for a modern look (Commented by Agnirva.com) */
+}
+
+.btn-primary, .btn-secondary, .btn-success {
+    border-radius: 20px; /* Applies rounded corners to buttons for consistency (Commented by Agnirva.com) */
+}
+
+footer {
+    margin-top: 50px; /* Adds spacing above the footer for separation (Commented by Agnirva.com) */
+    padding: 20px 0; /* Adds vertical padding to the footer (Commented by Agnirva.com) */
+    background-color: #fff; /* Gives the footer a white background (Commented by Agnirva.com) */
+    text-align: center; /* Centers footer content (Commented by Agnirva.com) */
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Adds a shadow effect above the footer (Commented by Agnirva.com) */
+}

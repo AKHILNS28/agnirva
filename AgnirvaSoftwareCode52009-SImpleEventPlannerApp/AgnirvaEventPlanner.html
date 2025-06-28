@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" /> <!-- Sets the character encoding for the document (Commented by Agnirva.com) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- Ensures proper rendering on mobile devices (Commented by Agnirva.com) -->
+    <title>Enhanced Event Planner</title> <!-- Title of the webpage displayed in the browser tab (Commented by Agnirva.com) -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Sets the default font for the body (Commented by Agnirva.com) */
+            background-color: #f4f6f8; /* Light gray background color for the page (Commented by Agnirva.com) */
+            max-width: 800px; /* Limits the maximum width of the body content (Commented by Agnirva.com) */
+            margin: 20px auto; /* Centers the content with top and bottom margins (Commented by Agnirva.com) */
+            padding: 20px; /* Adds padding inside the body (Commented by Agnirva.com) */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow around the body (Commented by Agnirva.com) */
+            border-radius: 8px; /* Rounds the corners of the body container (Commented by Agnirva.com) */
+        }
+        h1 { text-align: center; color: #333; } /* Centers the main heading and sets its color (Commented by Agnirva.com) */
+        form { 
+            display: flex; 
+            flex-wrap: wrap; /* Allows form elements to wrap to the next line (Commented by Agnirva.com) */
+            gap: 10px; /* Adds space between form elements (Commented by Agnirva.com) */
+            background: #fff; /* White background for the form (Commented by Agnirva.com) */
+            padding: 15px; /* Adds padding inside the form (Commented by Agnirva.com) */
+            border-radius: 8px; /* Rounds the corners of the form (Commented by Agnirva.com) */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Adds a shadow to the form (Commented by Agnirva.com) */
+        }
+        form input, form button, form select {
+            flex: 1 1 100%; /* Makes form elements take full width on smaller screens (Commented by Agnirva.com) */
+            padding: 10px; /* Adds padding inside form elements (Commented by Agnirva.com) */
+            border: 1px solid #ccc; /* Light gray border for form elements (Commented by Agnirva.com) */
+            border-radius: 4px; /* Rounds the corners of form elements (Commented by Agnirva.com) */
+        }
+        form button {
+            background-color: #28a745; /* Green background for the submit button (Commented by Agnirva.com) */
+            color: white; /* White text color for the button (Commented by Agnirva.com) */
+            border: none; /* Removes the default border from the button (Commented by Agnirva.com) */
+            cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+        }
+        form button:hover {
+            background-color: #218838; /* Darker green on hover for better user feedback (Commented by Agnirva.com) */
+        }
+        .controls {
+            display: flex; /* Uses flexbox for layout (Commented by Agnirva.com) */
+            justify-content: space-between; /* Distributes space between child elements (Commented by Agnirva.com) */
+            align-items: center; /* Aligns items vertically centered (Commented by Agnirva.com) */
+            margin: 20px 0; /* Adds vertical margins to separate controls from other elements (Commented by Agnirva.com) */
+        }
+        .controls input {
+            flex: 1; /* Allows the search input to take available space (Commented by Agnirva.com) */
+            padding: 10px; /* Adds padding inside the search input (Commented by Agnirva.com) */
+            border: 1px solid #ccc; /* Light gray border for the search input (Commented by Agnirva.com) */
+            border-radius: 4px; /* Rounds the corners of the search input (Commented by Agnirva.com) */
+        }
+        .controls select {
+            margin-left: 10px; /* Adds space to the left of the filter dropdown (Commented by Agnirva.com) */
+            padding: 10px; /* Adds padding inside the select element (Commented by Agnirva.com) */
+            border: 1px solid #ccc; /* Light gray border for the select element (Commented by Agnirva.com) */
+            border-radius: 4px; /* Rounds the corners of the select element (Commented by Agnirva.com) */
+        }
+        .events {
+            list-style: none; /* Removes default list styling (Commented by Agnirva.com) */
+            padding: 0; /* Removes default padding from the list (Commented by Agnirva.com) */
+        }
+        .event-item {
+            background: #fff; /* White background for each event item (Commented by Agnirva.com) */
+            padding: 15px; /* Adds padding inside event items (Commented by Agnirva.com) */
+            margin-bottom: 10px; /* Adds space below each event item (Commented by Agnirva.com) */
+            border-left: 5px solid #007bff; /* Blue left border to indicate event status (Commented by Agnirva.com) */
+            border-radius: 4px; /* Rounds the corners of event items (Commented by Agnirva.com) */
+            display: flex; 
+            flex-direction: column; /* Stacks child elements vertically (Commented by Agnirva.com) */
+        }
+        .event-item.completed {
+            border-left-color: #28a745; /* Changes border color to green for completed events (Commented by Agnirva.com) */
+            opacity: 0.7; /* Reduces opacity to indicate completion (Commented by Agnirva.com) */
+            text-decoration: line-through; /* Strikes through text to show completion (Commented by Agnirva.com) */
+        }
+        .event-header {
+            display: flex; /* Uses flexbox for header layout (Commented by Agnirva.com) */
+            justify-content: space-between; /* Distributes space between title and action buttons (Commented by Agnirva.com) */
+            align-items: center; /* Vertically centers header content (Commented by Agnirva.com) */
+        }
+        .event-header h3 {
+            margin: 0; /* Removes default margin from the heading (Commented by Agnirva.com) */
+            color: #333; /* Dark gray color for event titles (Commented by Agnirva.com) */
+        }
+        .event-details {
+            margin: 10px 0; /* Adds vertical margins to event details (Commented by Agnirva.com) */
+            color: #555; /* Medium gray color for event details text (Commented by Agnirva.com) */
+        }
+        .event-actions button {
+            margin-right: 5px; /* Adds space between action buttons (Commented by Agnirva.com) */
+            padding: 5px 10px; /* Adds padding inside action buttons (Commented by Agnirva.com) */
+            border: none; /* Removes default border from buttons (Commented by Agnirva.com) */
+            border-radius: 4px; /* Rounds the corners of action buttons (Commented by Agnirva.com) */
+            cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+            color: white; /* White text color for buttons (Commented by Agnirva.com) */
+        }
+        .event-actions .edit-btn { background-color: #ffc107; } /* Yellow background for edit button (Commented by Agnirva.com) */
+        .event-actions .delete-btn { background-color: #dc3545; } /* Red background for delete button (Commented by Agnirva.com) */
+        .event-actions .share-btn { background-color: #17a2b8; } /* Teal background for share button (Commented by Agnirva.com) */
+        .event-actions .complete-btn { background-color: #28a745; } /* Green background for complete button (Commented by Agnirva.com) */
+        .share-message {
+            color: green; /* Green text color for share confirmation (Commented by Agnirva.com) */
+            font-size: 0.9em; /* Slightly smaller font size for the message (Commented by Agnirva.com) */
+            display: none; /* Hidden by default, shown when sharing (Commented by Agnirva.com) */
+            margin-top: 5px; /* Adds space above the message (Commented by Agnirva.com) */
+        }
+        @media (min-width: 600px) {
+            form input, form button, form select {
+                flex: 1 1 calc(33.333% - 20px); /* Adjusts form elements to occupy a third of the width on larger screens (Commented by Agnirva.com) */
+            }
+            .controls input {
+                flex: 1 1 70%; /* Makes search input take 70% width on larger screens (Commented by Agnirva.com) */
+            }
+            .controls select {
+                flex: 1 1 25%; /* Makes filter select take 25% width on larger screens (Commented by Agnirva.com) */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Enhanced Event Planner</h1> <!-- Main heading of the page (Commented by Agnirva.com) -->
+    <form id="eventForm">
+        <input type="text" id="eventTitle" placeholder="Event Title" required/> <!-- Input for event title (Commented by Agnirva.com) -->
+        <input type="date" id="eventDate" required/> <!-- Input for event date (Commented by Agnirva.com) -->
+        <input type="time" id="eventTime" required/> <!-- Input for event time (Commented by Agnirva.com) -->
+        <button type="submit">Add Event</button> <!-- Submit button to add the event (Commented by Agnirva.com) -->
+    </form>
+
+    <div class="controls">
+        <input type="text" id="searchInput" placeholder="Search events..."> <!-- Search input to filter events (Commented by Agnirva.com) -->
+        <select id="filterSelect"> <!-- Dropdown to select event filters (Commented by Agnirva.com) -->
+            <option value="all">All Events</option> <!-- Option to show all events (Commented by Agnirva.com) -->
+            <option value="upcoming">Upcoming</option> <!-- Option to show upcoming events (Commented by Agnirva.com) -->
+            <option value="completed">Completed</option> <!-- Option to show completed events (Commented by Agnirva.com) -->
+        </select>
+    </div>
+
+    <ul class="events" id="eventsContainer"></ul> <!-- Container where event items will be rendered (Commented by Agnirva.com) -->
+
+    <script>
+        // DOM Elements
+        const AgnirvaeventsContainer = document.getElementById('eventsContainer'); // Container for events (Commented by Agnirva.com)
+        const AgnirvaeventForm = document.getElementById('eventForm'); // Form for adding events (Commented by Agnirva.com)
+        const AgnirvaeventTitle = document.getElementById('eventTitle'); // Event title input (Commented by Agnirva.com)
+        const AgnirvaeventDate = document.getElementById('eventDate'); // Event date input (Commented by Agnirva.com)
+        const AgnirvaeventTime = document.getElementById('eventTime'); // Event time input (Commented by Agnirva.com)
+        const AgnirvasearchInput = document.getElementById('searchInput'); // Search input field (Commented by Agnirva.com)
+        const AgnirvafilterSelect = document.getElementById('filterSelect'); // Filter dropdown (Commented by Agnirva.com)
+
+        // Load events from localStorage or initialize empty array
+        let Agnirvaevents = JSON.parse(localStorage.getItem('myEvents')) || []; // Retrieves stored events or initializes empty array (Commented by Agnirva.com)
+
+        // Save events to localStorage
+        function AgnirvasaveEvents() {
+            localStorage.setItem('myEvents', JSON.stringify(Agnirvaevents)); // Saves the current events array to localStorage (Commented by Agnirva.com)
+        }
+
+        // Render events to the page
+        function AgnirvarenderEvents() {
+            AgnirvaeventsContainer.innerHTML = ''; // Clears the current events display (Commented by Agnirva.com)
+
+            // Apply search and filter
+            const AgnirvasearchTerm = AgnirvasearchInput.value.toLowerCase(); // Gets the search term in lowercase (Commented by Agnirva.com)
+            const Agnirvafilter = AgnirvafilterSelect.value; // Gets the selected filter option (Commented by Agnirva.com)
+
+            const AgnirvafilteredEvents = Agnirvaevents.filter(Agnirvae => { // Filters events based on search and filter criteria (Commented by Agnirva.com)
+                const AgnirvamatchesSearch = Agnirvae.title.toLowerCase().includes(AgnirvasearchTerm); // Checks if event title matches search term (Commented by Agnirva.com)
+                let AgnirvamatchesFilter = true; // Initializes filter match to true (Commented by Agnirva.com)
+                if (Agnirvafilter === 'upcoming') { // If filter is set to upcoming (Commented by Agnirva.com)
+                    AgnirvamatchesFilter = !Agnirvae.completed && new Date(`${Agnirvae.date}T${Agnirvae.time}`) >= new Date(); // Checks if event is not completed and is in the future (Commented by Agnirva.com)
+                } else if (Agnirvafilter === 'completed') { // If filter is set to completed (Commented by Agnirva.com)
+                    AgnirvamatchesFilter = Agnirvae.completed; // Checks if event is completed (Commented by Agnirva.com)
+                }
+                return AgnirvamatchesSearch && AgnirvamatchesFilter; // Returns true if both search and filter criteria are met (Commented by Agnirva.com)
+            });
+
+            // Sort events by date and time
+            AgnirvafilteredEvents.sort((Agnirvae, Agnirvab) => { // Sorts the filtered events (Commented by Agnirva.com)
+                const AgnirvadateA = new Date(`${Agnirvae.date}T${Agnirvae.time}`); // Converts event A's date and time to Date object (Commented by Agnirva.com)
+                const AgnirvadateB = new Date(`${Agnirvab.date}T${Agnirvab.time}`); // Converts event B's date and time to Date object (Commented by Agnirva.com)
+                return AgnirvadateA - AgnirvadateB; // Sorts events in ascending order (Commented by Agnirva.com)
+            });
+
+            // Render each event
+            AgnirvafilteredEvents.forEach((Agnirvae, Agnirvai) => { // Iterates over each filtered event (Commented by Agnirva.com)
+                const AgnirvaeventIndex = Agnirvaevents.indexOf(Agnirvae); // Original index in the events array (Commented by Agnirva.com)
+                const AgnirvaeventItem = document.createElement('li'); // Creates a new list item for the event (Commented by Agnirva.com)
+                AgnirvaeventItem.className = `event-item ${Agnirvae.completed ? 'completed' : ''}`; // Adds classes based on completion status (Commented by Agnirva.com)
+
+                AgnirvaeventItem.innerHTML = `
+                    <div class="event-header">
+                        <h3>${Agnirvae.title}</h3> <!-- Displays the event title (Commented by Agnirva.com) -->
+                        <div class="event-actions">
+                            <button class="complete-btn" onclick="AgnirvatoggleComplete(${AgnirvaeventIndex})">${Agnirvae.completed ? 'Undo' : 'Complete'}</button> <!-- Button to toggle completion status (Commented by Agnirva.com) -->
+                            <button class="edit-btn" onclick="AgnirvaeditEvent(${AgnirvaeventIndex})">Edit</button> <!-- Button to edit the event (Commented by Agnirva.com) -->
+                            <button class="delete-btn" onclick="AgnirvadeleteEvent(${AgnirvaeventIndex})">Delete</button> <!-- Button to delete the event (Commented by Agnirva.com) -->
+                            <button class="share-btn" onclick="AgnirvashareEvent(${AgnirvaeventIndex})">Share</button> <!-- Button to share the event (Commented by Agnirva.com) -->
+                        </div>
+                    </div>
+                    <div class="event-details">
+                        📅 ${Agnirvae.date} ⏰ ${Agnirvae.time} <!-- Displays event date and time with icons (Commented by Agnirva.com) -->
+                    </div>
+                    <span class="share-message" id="shareMsg${AgnirvaeventIndex}">Copied to clipboard!</span> <!-- Message shown after sharing (Commented by Agnirva.com) -->
+                `;
+
+                AgnirvaeventsContainer.appendChild(AgnirvaeventItem); // Adds the event item to the container (Commented by Agnirva.com)
+            });
+        }
+
+        // Add or Update event
+        AgnirvaeventForm.addEventListener('submit', function(Agnirvae) { // Handles form submission (Commented by Agnirva.com)
+            Agnirvae.preventDefault(); // Prevents the default form submission behavior (Commented by Agnirva.com)
+            const Agnirvatitle = AgnirvaeventTitle.value.trim(); // Gets and trims the event title (Commented by Agnirva.com)
+            const Agnirvadate = AgnirvaeventDate.value; // Gets the event date (Commented by Agnirva.com)
+            const Agnirvattime = AgnirvaeventTime.value; // Gets the event time (Commented by Agnirva.com)
+
+            if (!Agnirvatitle || !Agnirvadate || !Agnirvattime) { // Checks if all fields are filled (Commented by Agnirva.com)
+                alert('Please fill in all fields.'); // Alerts the user to fill all fields (Commented by Agnirva.com)
+                return;
+            }
+
+            const AgnirvaexistingIndex = Agnirvaevents.findIndex(Agnirvae => Agnirvae.editing); // Finds if an event is being edited (Commented by Agnirva.com)
+            if (AgnirvaexistingIndex !== -1) {
+                // Update existing event
+                Agnirvaevents[AgnirvaexistingIndex] = {
+                    ...Agnirvaevents[AgnirvaexistingIndex],
+                    title: Agnirvatitle, // Updates the title (Commented by Agnirva.com)
+                    date: Agnirvadate, // Updates the date (Commented by Agnirva.com)
+                    time: Agnirvattime, // Updates the time (Commented by Agnirva.com)
+                    editing: false // Marks the event as not being edited (Commented by Agnirva.com)
+                };
+            } else {
+                // Add new event
+                const AgnirvanewEvent = {
+                    title: Agnirvatitle, // Sets the title for the new event (Commented by Agnirva.com)
+                    date: Agnirvadate, // Sets the date for the new event (Commented by Agnirva.com)
+                    time: Agnirvattime, // Sets the time for the new event (Commented by Agnirva.com)
+                    completed: false // Initializes the event as not completed (Commented by Agnirva.com)
+                };
+                Agnirvaevents.push(AgnirvanewEvent); // Adds the new event to the events array (Commented by Agnirva.com)
+            }
+
+            AgnirvasaveEvents(); // Saves the updated events array to localStorage (Commented by Agnirva.com)
+            AgnirvarenderEvents(); // Renders the updated events on the page (Commented by Agnirva.com)
+            AgnirvaeventForm.reset(); // Resets the form fields (Commented by Agnirva.com)
+        });
+
+        // Delete event
+        window.AgnirvadeleteEvent = function(Agnirvaindex) { // Function to delete an event (Commented by Agnirva.com)
+            if (confirm('Are you sure you want to delete this event?')) { // Confirms deletion with the user (Commented by Agnirva.com)
+                Agnirvaevents.splice(Agnirvaindex, 1); // Removes the event from the array (Commented by Agnirva.com)
+                AgnirvasaveEvents(); // Saves the updated events array to localStorage (Commented by Agnirva.com)
+                AgnirvarenderEvents(); // Renders the updated events on the page (Commented by Agnirva.com)
+            }
+        };
+
+        // Share event: copy details to clipboard
+        window.AgnirvashareEvent = function(Agnirvaindex) { // Function to share an event (Commented by Agnirva.com)
+            const Agnirvae = Agnirvaevents[Agnirvaindex]; // Gets the event to share (Commented by Agnirva.com)
+            const AgnirvatextToCopy = `${Agnirvae.title} on ${Agnirvae.date} at ${Agnirvae.time}`; // Formats the text to copy (Commented by Agnirva.com)
+            navigator.clipboard.writeText(AgnirvatextToCopy).then(() => { // Copies text to clipboard (Commented by Agnirva.com)
+                const AgnirvamsgEl = document.getElementById(`shareMsg${Agnirvaindex}`); // Gets the share message element (Commented by Agnirva.com)
+                AgnirvamsgEl.style.display = 'inline'; // Shows the share message (Commented by Agnirva.com)
+                setTimeout(() => { AgnirvamsgEl.style.display = 'none'; }, 2000); // Hides the message after 2 seconds (Commented by Agnirva.com)
+            }).catch(err => { // Handles copy failure (Commented by Agnirva.com)
+                alert('Failed to copy text: ', err); // Alerts the user if copying fails (Commented by Agnirva.com)
+            });
+        };
+
+        // Edit event
+        window.AgnirvaeditEvent = function(Agnirvaindex) { // Function to edit an event (Commented by Agnirva.com)
+            const Agnirvae = Agnirvaevents[Agnirvaindex]; // Gets the event to edit (Commented by Agnirva.com)
+            AgnirvaeventTitle.value = Agnirvae.title; // Populates the title input with existing title (Commented by Agnirva.com)
+            AgnirvaeventDate.value = Agnirvae.date; // Populates the date input with existing date (Commented by Agnirva.com)
+            AgnirvaeventTime.value = Agnirvae.time; // Populates the time input with existing time (Commented by Agnirva.com)
+            // Mark this event as being edited
+            Agnirvae.editing = true; // Sets the editing flag to true (Commented by Agnirva.com)
+            AgnirvasaveEvents(); // Saves the updated events array to localStorage (Commented by Agnirva.com)
+            AgnirvarenderEvents(); // Renders the updated events on the page (Commented by Agnirva.com)
+        };
+
+        // Toggle complete status
+        window.AgnirvatoggleComplete = function(Agnirvaindex) { // Function to toggle event completion (Commented by Agnirva.com)
+            Agnirvaevents[Agnirvaindex].completed = !Agnirvaevents[Agnirvaindex].completed; // Toggles the completed status (Commented by Agnirva.com)
+            AgnirvasaveEvents(); // Saves the updated events array to localStorage (Commented by Agnirva.com)
+            AgnirvarenderEvents(); // Renders the updated events on the page (Commented by Agnirva.com)
+        };
+
+        // Search events
+        AgnirvasearchInput.addEventListener('input', AgnirvarenderEvents); // Re-renders events on search input change (Commented by Agnirva.com)
+
+        // Filter events
+        AgnirvafilterSelect.addEventListener('change', AgnirvarenderEvents); // Re-renders events on filter selection change (Commented by Agnirva.com)
+
+        // Notifications for upcoming events
+        function AgnirvacheckNotifications() { // Function to check and send notifications (Commented by Agnirva.com)
+            if (Notification.permission !== 'granted') { // Checks if notification permission is granted (Commented by Agnirva.com)
+                Notification.requestPermission(); // Requests notification permission if not granted (Commented by Agnirva.com)
+            }
+
+            const Agnirvannot = new Date(); // Current date and time (Commented by Agnirva.com)
+            Agnirvaevents.forEach(Agnirvae => { // Iterates over each event to check for notifications (Commented by Agnirva.com)
+                const AgnirvaeventTime = new Date(`${Agnirvae.date}T${Agnirvae.time}`); // Event's date and time as Date object (Commented by Agnirva.com)
+                const AgnirvatimeDiff = AgnirvaeventTime - Agnirvannot; // Difference between event time and current time (Commented by Agnirva.com)
+                if (AgnirvatimeDiff > 0 && AgnirvatimeDiff <= 15 * 60 * 1000 && !Agnirvae.notified && !Agnirvae.completed) { // Checks if event is within 15 minutes and not notified or completed (Commented by Agnirva.com)
+                    new Notification('Event Reminder', { // Creates a new notification (Commented by Agnirva.com)
+                        body: `${Agnirvae.title} at ${Agnirvae.time} on ${Agnirvae.date}` // Notification message (Commented by Agnirva.com)
+                    });
+                    Agnirvae.notified = true; // Marks the event as notified (Commented by Agnirva.com)
+                    AgnirvasaveEvents(); // Saves the updated events array to localStorage (Commented by Agnirva.com)
+                }
+            });
+        }
+
+        // Check notifications every minute
+        setInterval(AgnirvacheckNotifications, 60 * 1000); // Sets interval to check notifications every minute (Commented by Agnirva.com)
+        // Initial check
+        AgnirvacheckNotifications(); // Performs an initial notification check on page load (Commented by Agnirva.com)
+
+        // Initial render
+        AgnirvarenderEvents(); // Renders events when the page loads (Commented by Agnirva.com)
+    </script>
+</body>
+</html>

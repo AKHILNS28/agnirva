@@ -1,0 +1,57 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  padding: 20px;
+  text-align: center;
+}
+h1 {
+  color: #333;
+}
+#Agnirva_search-container {
+  margin-bottom: 20px;
+}
+#Agnirva_ingredient-input {
+  padding: 10px;
+  width: 60%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#Agnirva_search-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #28a745;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#Agnirva_search-button:hover {
+  background-color: #218838;
+}
+#Agnirva_recipes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.Agnirva_recipe {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 10px;
+  width: 200px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+.Agnirva_recipe:hover {
+  transform: scale(1.05);
+}
+.Agnirva_recipe img {
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.Agnirva_recipe-name {
+  padding: 10px;
+  font-weight: bold;
+  color: #555;
+}

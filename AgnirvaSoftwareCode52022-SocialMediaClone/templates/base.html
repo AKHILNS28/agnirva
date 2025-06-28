@@ -1,0 +1,73 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Specifies character encoding for the HTML document (Commented by Agnirva.com) -->
+    <title>SocialMediaClone</title>
+    <!-- Bootstrap 5 CSS (Commented by Agnirva.com) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap framework for responsive styling (Commented by Agnirva.com) -->
+    <!-- Font Awesome (Commented by Agnirva.com) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> <!-- Font Awesome for scalable vector icons (Commented by Agnirva.com) -->
+    <!-- Custom CSS (Commented by Agnirva.com) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> <!-- Custom styles specific to the application (Commented by Agnirva.com) -->
+</head>
+<body>
+    <!-- Navbar (Commented by Agnirva.com) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow"> <!-- Responsive and fixed-top navbar using Bootstrap classes (Commented by Agnirva.com) -->
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}"><i class="fas fa-share-alt"></i> SocialMediaClone</a> <!-- Brand link with a Font Awesome icon (Commented by Agnirva.com) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> <!-- Toggler icon for small screens (Commented by Agnirva.com) -->
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav"> <!-- Collapsible menu for navigation items (Commented by Agnirva.com) -->
+                <ul class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('upload') }}"><i class="fas fa-upload"></i> Upload</a> <!-- Link to upload content if user is logged in (Commented by Agnirva.com) -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('profile', agnirvauuser_id=current_user.id) }}"><i class="fas fa-user"></i> {{ current_user.username }}</a> <!-- Link to user profile with dynamic username (Commented by Agnirva.com) -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a> <!-- Logout link for authenticated users (Commented by Agnirva.com) -->
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a> <!-- Login link for unauthenticated users (Commented by Agnirva.com) -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a> <!-- Register link for new users (Commented by Agnirva.com) -->
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content (Commented by Agnirva.com) -->
+    <div class="container mt-5 pt-4"> <!-- Main container for page content with margin and padding for spacing (Commented by Agnirva.com) -->
+        {% with messages = get_flashed_messages() %} <!-- Flask template syntax to display flash messages (Commented by Agnirva.com) -->
+            {% if messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert"> <!-- Bootstrap alert for displaying flash messages (Commented by Agnirva.com) -->
+                    {% for message in messages %}
+                        {{ message }} <!-- Render each flashed message dynamically (Commented by Agnirva.com) -->
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> <!-- Button to dismiss the alert (Commented by Agnirva.com) -->
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %} <!-- Placeholder for child templates to inject their content (Commented by Agnirva.com) -->
+    </div>
+
+    <!-- Footer (Commented by Agnirva.com) -->
+    <footer>
+        <div class="container">
+            <span class="text-muted">&copy; {{ current_year }} SocialMediaClone. All rights reserved.</span> <!-- Footer with current year dynamically rendered (Commented by Agnirva.com) -->
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS and dependencies (Commented by Agnirva.com) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JavaScript for interactive components (Commented by Agnirva.com) -->
+</body>
+</html>

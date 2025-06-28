@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /> <!-- Specifies the character encoding for the HTML document (Commented by Agnirva.com) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- Ensures proper rendering and touch zooming on mobile devices (Commented by Agnirva.com) -->
+<title>Enhanced Fitness Tracker with Multiple Goals</title> <!-- Sets the title of the webpage displayed in the browser tab (Commented by Agnirva.com) -->
+<style>
+  body {
+    font-family: Arial, sans-serif; /* Sets the default font for the page (Commented by Agnirva.com) */
+    max-width: 900px; /* Limits the maximum width of the content (Commented by Agnirva.com) */
+    margin: 20px auto; /* Centers the content horizontally with top and bottom margins (Commented by Agnirva.com) */
+    padding: 0 10px; /* Adds horizontal padding to the content (Commented by Agnirva.com) */
+    background-color: #f9f9f9; /* Sets a light gray background color for the page (Commented by Agnirva.com) */
+  }
+  h1, h2 {
+    text-align: center; /* Centers the heading text (Commented by Agnirva.com) */
+    color: #333; /* Sets a dark gray color for the headings (Commented by Agnirva.com) */
+  }
+  label {
+    display: block; /* Makes labels block-level elements for better layout (Commented by Agnirva.com) */
+    margin-top: 10px; /* Adds space above each label (Commented by Agnirva.com) */
+    font-weight: bold; /* Makes the label text bold (Commented by Agnirva.com) */
+  }
+  input[type="text"], input[type="date"], input[type="number"], select {
+    width: 100%; /* Makes input fields take up the full width of their container (Commented by Agnirva.com) */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height (Commented by Agnirva.com) */
+    margin-top: 5px; /* Adds space above each input field (Commented by Agnirva.com) */
+    padding: 8px; /* Adds padding inside input fields for better spacing (Commented by Agnirva.com) */
+    border: 1px solid #ccc; /* Adds a light gray border to input fields (Commented by Agnirva.com) */
+    border-radius: 4px; /* Rounds the corners of input fields (Commented by Agnirva.com) */
+  }
+  button {
+    padding: 8px 15px; /* Adds padding inside buttons for better clickability (Commented by Agnirva.com) */
+    margin-top: 15px; /* Adds space above buttons (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over buttons (Commented by Agnirva.com) */
+    background-color: #28a745; /* Sets a green background color for buttons (Commented by Agnirva.com) */
+    color: white; /* Sets the text color of buttons to white (Commented by Agnirva.com) */
+    border: none; /* Removes the default border from buttons (Commented by Agnirva.com) */
+    border-radius: 4px; /* Rounds the corners of buttons (Commented by Agnirva.com) */
+  }
+  button:hover {
+    background-color: #218838; /* Darkens the button color on hover for a visual effect (Commented by Agnirva.com) */
+  }
+  table {
+    width: 100%; /* Makes the table take up the full width of its container (Commented by Agnirva.com) */
+    border-collapse: collapse; /* Removes the space between table cells (Commented by Agnirva.com) */
+    margin-top: 20px; /* Adds space above the table (Commented by Agnirva.com) */
+  }
+  th, td {
+    border: 1px solid #ccc; /* Adds a light gray border to table headers and cells (Commented by Agnirva.com) */
+    text-align: left; /* Aligns text to the left within table cells (Commented by Agnirva.com) */
+    padding: 8px; /* Adds padding inside table cells for better spacing (Commented by Agnirva.com) */
+  }
+  th {
+    background: #eee; /* Sets a light gray background for table headers (Commented by Agnirva.com) */
+  }
+  .goal-section, .log-section, .filter-section, .chart-section {
+    border: 1px solid #ddd; /* Adds a light border around each section (Commented by Agnirva.com) */
+    padding: 20px; /* Adds padding inside each section for better spacing (Commented by Agnirva.com) */
+    margin-bottom: 20px; /* Adds space below each section (Commented by Agnirva.com) */
+    border-radius: 5px; /* Rounds the corners of each section (Commented by Agnirva.com) */
+    background-color: white; /* Sets a white background for sections (Commented by Agnirva.com) */
+  }
+  .progress-container {
+    background-color: #e0e0e0; /* Sets a gray background for the progress bar container (Commented by Agnirva.com) */
+    border-radius: 25px; /* Rounds the corners of the progress bar container (Commented by Agnirva.com) */
+    overflow: hidden; /* Ensures the progress bar does not overflow its container (Commented by Agnirva.com) */
+    margin-top: 10px; /* Adds space above the progress bar container (Commented by Agnirva.com) */
+  }
+  .progress-bar {
+    height: 20px; /* Sets the height of the progress bar (Commented by Agnirva.com) */
+    background-color: #28a745; /* Sets a green background color for the progress bar (Commented by Agnirva.com) */
+    width: 0%; /* Initializes the progress bar width to 0% (Commented by Agnirva.com) */
+    transition: width 0.3s; /* Animates the width change smoothly over 0.3 seconds (Commented by Agnirva.com) */
+    text-align: center; /* Centers the text inside the progress bar (Commented by Agnirva.com) */
+    color: black; /* Sets the text color inside the progress bar to black (Commented by Agnirva.com) */
+    font-size: 12px; /* Sets the font size of the progress bar text (Commented by Agnirva.com) */
+    line-height: 20px; /* Vertically centers the text within the progress bar (Commented by Agnirva.com) */
+  }
+  .action-btn {
+    margin-right: 5px; /* Adds space to the right of action buttons (Commented by Agnirva.com) */
+    padding: 5px 10px; /* Adds padding inside action buttons for better clickability (Commented by Agnirva.com) */
+    border: none; /* Removes the default border from action buttons (Commented by Agnirva.com) */
+    border-radius: 3px; /* Rounds the corners of action buttons (Commented by Agnirva.com) */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over action buttons (Commented by Agnirva.com) */
+    font-size: 14px; /* Sets the font size of action button text (Commented by Agnirva.com) */
+  }
+  .edit-btn {
+    background-color: #007bff; /* Sets a blue background color for edit buttons (Commented by Agnirva.com) */
+    color: white; /* Sets the text color of edit buttons to white (Commented by Agnirva.com) */
+  }
+  .delete-btn {
+    background-color: #dc3545; /* Sets a red background color for delete buttons (Commented by Agnirva.com) */
+    color: white; /* Sets the text color of delete buttons to white (Commented by Agnirva.com) */
+  }
+  @media (max-width: 600px) { /* Applies styles for screens smaller than 600px wide (Commented by Agnirva.com) */
+    th, td {
+      font-size: 14px; /* Reduces the font size in table headers and cells on small screens (Commented by Agnirva.com) */
+    }
+    button, .action-btn {
+      width: 100%; /* Makes buttons take up the full width on small screens for better usability (Commented by Agnirva.com) */
+      margin-top: 10px; /* Adds space above buttons on small screens (Commented by Agnirva.com) */
+    }
+  }
+</style>
+<!-- Chart.js CDN for chart integration -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Includes the Chart.js library for creating charts (Commented by Agnirva.com) -->
+</head>
+<body>
+
+<h1>Enhanced Fitness Tracker</h1> <!-- Main heading of the webpage (Commented by Agnirva.com) -->
+
+<!-- Goal Management Section -->
+<div class="goal-section"> <!-- Container for managing fitness goals (Commented by Agnirva.com) -->
+  <h2>Manage Your Fitness Goals</h2> <!-- Subheading for goal management (Commented by Agnirva.com) -->
+  
+  <label for="AgnirvagoalDescription">Goal Description:</label> <!-- Label for goal description input (Commented by Agnirva.com) -->
+  <input type="text" id="AgnirvagoalDescription" placeholder="e.g. Run 5 times this week" /> <!-- Input field for entering goal description (Commented by Agnirva.com) -->
+  
+  <label for="AgnirvagoalTarget">Target Count:</label> <!-- Label for target count input (Commented by Agnirva.com) -->
+  <input type="number" id="AgnirvagoalTarget" placeholder="e.g. 5" min="1" /> <!-- Input field for entering target count with a minimum value of 1 (Commented by Agnirva.com) -->
+  
+  <button id="AgnirvaaddGoalBtn">Add Goal</button> <!-- Button to add a new goal (Commented by Agnirva.com) -->
+  
+  <h3>Your Goals</h3> <!-- Subheading for displaying user goals (Commented by Agnirva.com) -->
+  <div id="AgnirvagoalsList">
+    <!-- Goals will be dynamically inserted here (Commented by Agnirva.com) -->
+  </div>
+</div>
+
+<!-- Activity Logging Section -->
+<div class="log-section"> <!-- Container for logging new activities (Commented by Agnirva.com) -->
+  <h2>Log a New Activity</h2> <!-- Subheading for activity logging (Commented by Agnirva.com) -->
+  
+  <label for="AgnirvaactivityName">Activity:</label> <!-- Label for activity name input (Commented by Agnirva.com) -->
+  <input type="text" id="AgnirvaactivityName" placeholder="e.g. Running" /> <!-- Input field for entering activity name (Commented by Agnirva.com) -->
+  
+  <label for="AgnirvaactivityDate">Date:</label> <!-- Label for activity date input (Commented by Agnirva.com) -->
+  <input type="date" id="AgnirvaactivityDate" /> <!-- Input field for selecting activity date (Commented by Agnirva.com) -->
+  
+  <label for="AgnirvaactivityDescription">Description:</label> <!-- Label for activity description input (Commented by Agnirva.com) -->
+  <input type="text" id="AgnirvaactivityDescription" placeholder="e.g. Ran 3 miles" /> <!-- Input field for entering activity description (Commented by Agnirva.com) -->
+  
+  <label for="AgnirvaactivityGoal">Associate with Goal:</label> <!-- Label for associating activity with a goal (Commented by Agnirva.com) -->
+  <select id="AgnirvaactivityGoal">
+    <!-- Goals options will be dynamically inserted here (Commented by Agnirva.com) -->
+  </select>
+  
+  <button id="AgnirvalogActivityBtn">Log Activity</button> <!-- Button to log the new activity (Commented by Agnirva.com) -->
+</div>
+
+<!-- Activity Filtering Section -->
+<div class="filter-section"> <!-- Container for filtering activities (Commented by Agnirva.com) -->
+  <h2>Filter Activities</h2> <!-- Subheading for activity filtering (Commented by Agnirva.com) -->
+  
+  <label for="AgnirvafilterOption">Filter by:</label> <!-- Label for filter options (Commented by Agnirva.com) -->
+  <select id="AgnirvafilterOption">
+    <option value="all">All</option> <!-- Option to show all activities (Commented by Agnirva.com) -->
+    <option value="week">This Week</option> <!-- Option to filter activities from the past week (Commented by Agnirva.com) -->
+    <option value="month">This Month</option> <!-- Option to filter activities from the past month (Commented by Agnirva.com) -->
+    <option value="goal">By Goal</option> <!-- Option to filter activities by a specific goal (Commented by Agnirva.com) -->
+    <option value="custom">Custom Range</option> <!-- Option to filter activities within a custom date range (Commented by Agnirva.com) -->
+  </select>
+  
+  <div id="AgnirvacustomDateRange" style="display: none;"> <!-- Container for custom date range inputs, hidden by default (Commented by Agnirva.com) -->
+    <label for="AgnirvastartDate">Start Date:</label> <!-- Label for start date input (Commented by Agnirva.com) -->
+    <input type="date" id="AgnirvastartDate" /> <!-- Input field for selecting start date (Commented by Agnirva.com) -->
+    
+    <label for="AgnirvaendDate">End Date:</label> <!-- Label for end date input (Commented by Agnirva.com) -->
+    <input type="date" id="AgnirvaendDate" /> <!-- Input field for selecting end date (Commented by Agnirva.com) -->
+  </div>
+  
+  <div id="AgnirvagoalFilter" style="display: none;"> <!-- Container for goal filter dropdown, hidden by default (Commented by Agnirva.com) -->
+    <label for="AgnirvafilterGoal">Select Goal:</label> <!-- Label for selecting a goal to filter by (Commented by Agnirva.com) -->
+    <select id="AgnirvafilterGoal">
+      <!-- Goals options will be dynamically inserted here (Commented by Agnirva.com) -->
+    </select>
+  </div>
+  
+  <button id="AgnirvaapplyFilterBtn">Apply Filter</button> <!-- Button to apply the selected filter (Commented by Agnirva.com) -->
+</div>
+
+<!-- Activity Log Table -->
+<h2>Activity Log</h2> <!-- Subheading for the activity log table (Commented by Agnirva.com) -->
+<table id="AgnirvaactivityTable"> <!-- Table to display logged activities (Commented by Agnirva.com) -->
+  <thead>
+    <tr>
+      <th>Activity</th> <!-- Column header for activity name (Commented by Agnirva.com) -->
+      <th>Date</th> <!-- Column header for activity date (Commented by Agnirva.com) -->
+      <th>Description</th> <!-- Column header for activity description (Commented by Agnirva.com) -->
+      <th>Goal</th> <!-- Column header for associated goal (Commented by Agnirva.com) -->
+      <th>Actions</th> <!-- Column header for action buttons (Edit/Delete) (Commented by Agnirva.com) -->
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Activities will be dynamically inserted here (Commented by Agnirva.com) -->
+  </tbody>
+</table>
+
+<!-- Chart Section -->
+<div class="chart-section"> <!-- Container for the activity progress chart (Commented by Agnirva.com) -->
+  <h2>Activity Progress Chart</h2> <!-- Subheading for the chart (Commented by Agnirva.com) -->
+  <canvas id="AgnirvaactivityChart" width="800" height="400"></canvas> <!-- Canvas element for rendering the chart (Commented by Agnirva.com) -->
+</div>
+
+<script>
+  // Data Structures
+  let Agnirvagoals = JSON.parse(localStorage.getItem('goals')) || []; /* Retrieves goals from localStorage or initializes an empty array (Commented by Agnirva.com) */
+  let Agnirvaactivities = JSON.parse(localStorage.getItem('activities')) || []; /* Retrieves activities from localStorage or initializes an empty array (Commented by Agnirva.com) */
+  
+  // Elements
+  const AgnirvagoalDescriptionEl = document.getElementById('AgnirvagoalDescription'); /* Gets the goal description input element (Commented by Agnirva.com) */
+  const AgnirvagoalTargetEl = document.getElementById('AgnirvagoalTarget'); /* Gets the goal target input element (Commented by Agnirva.com) */
+  const AgnirvaaddGoalBtn = document.getElementById('AgnirvaaddGoalBtn'); /* Gets the Add Goal button element (Commented by Agnirva.com) */
+  const AgnirvagoalsListEl = document.getElementById('AgnirvagoalsList'); /* Gets the container for the goals list (Commented by Agnirva.com) */
+  
+  const AgnirvaactivityNameEl = document.getElementById('AgnirvaactivityName'); /* Gets the activity name input element (Commented by Agnirva.com) */
+  const AgnirvaactivityDateEl = document.getElementById('AgnirvaactivityDate'); /* Gets the activity date input element (Commented by Agnirva.com) */
+  const AgnirvaactivityDescriptionEl = document.getElementById('AgnirvaactivityDescription'); /* Gets the activity description input element (Commented by Agnirva.com) */
+  const AgnirvaactivityGoalEl = document.getElementById('AgnirvaactivityGoal'); /* Gets the activity goal dropdown element (Commented by Agnirva.com) */
+  const AgnirvalogActivityBtn = document.getElementById('AgnirvalogActivityBtn'); /* Gets the Log Activity button element (Commented by Agnirva.com) */
+  
+  const AgnirvafilterOptionEl = document.getElementById('AgnirvafilterOption'); /* Gets the filter option dropdown element (Commented by Agnirva.com) */
+  const AgnirvacustomDateRangeEl = document.getElementById('AgnirvacustomDateRange'); /* Gets the custom date range container element (Commented by Agnirva.com) */
+  const AgnirvastartDateEl = document.getElementById('AgnirvastartDate'); /* Gets the start date input element for custom filtering (Commented by Agnirva.com) */
+  const AgnirvaendDateEl = document.getElementById('AgnirvaendDate'); /* Gets the end date input element for custom filtering (Commented by Agnirva.com) */
+  const AgnirvagoalFilterEl = document.getElementById('AgnirvagoalFilter'); /* Gets the goal filter container element (Commented by Agnirva.com) */
+  const AgnirvafilterGoalEl = document.getElementById('AgnirvafilterGoal'); /* Gets the goal filter dropdown element (Commented by Agnirva.com) */
+  const AgnirvaapplyFilterBtn = document.getElementById('AgnirvaapplyFilterBtn'); /* Gets the Apply Filter button element (Commented by Agnirva.com) */
+  
+  const AgnirvaactivityTableBody = document.querySelector('#AgnirvaactivityTable tbody'); /* Gets the tbody element of the activity table (Commented by Agnirva.com) */
+  
+  const AgnirvaactivityChartCtx = document.getElementById('AgnirvaactivityChart').getContext('2d'); /* Gets the 2D context of the chart canvas (Commented by Agnirva.com) */
+  let AgnirvaactivityChart; /* Initializes a variable to hold the Chart.js chart instance (Commented by Agnirva.com) */
+  
+  // Initialize Application
+  function Agnirvainit() { /* Function to initialize the application (Commented by Agnirva.com) */
+    AgnirvarenderGoals(); /* Renders the list of goals (Commented by Agnirva.com) */
+    AgnirvapopulateGoalDropdowns(); /* Populates dropdowns with current goals (Commented by Agnirva.com) */
+    AgnirvarenderActivities(); /* Renders the list of activities (Commented by Agnirva.com) */
+    AgnirvarenderChart(); /* Renders the activity progress chart (Commented by Agnirva.com) */
+  }
+  
+  // Generate Unique ID for Goals
+  function AgnirvagenerateGoalId() { /* Function to generate a unique ID for each goal (Commented by Agnirva.com) */
+    return 'goal-' + Date.now(); /* Concatenates 'goal-' with the current timestamp (Commented by Agnirva.com) */
+  }
+  
+  // Add New Goal
+  AgnirvaaddGoalBtn.addEventListener('click', () => { /* Adds a click event listener to the Add Goal button (Commented by Agnirva.com) */
+    const description = AgnirvagoalDescriptionEl.value.trim(); /* Gets and trims the goal description input value (Commented by Agnirva.com) */
+    const target = parseInt(AgnirvagoalTargetEl.value.trim()); /* Gets and parses the goal target input value as an integer (Commented by Agnirva.com) */
+    
+    if (!description) { /* Checks if the description is empty (Commented by Agnirva.com) */
+      alert('Please enter a goal description.'); /* Alerts the user to enter a description (Commented by Agnirva.com) */
+      return; /* Exits the function if description is empty (Commented by Agnirva.com) */
+    }
+    if (isNaN(target) || target <= 0) { /* Checks if the target is not a number or less than or equal to zero (Commented by Agnirva.com) */
+      alert('Please enter a valid target count.'); /* Alerts the user to enter a valid target count (Commented by Agnirva.com) */
+      return; /* Exits the function if target is invalid (Commented by Agnirva.com) */
+    }
+    
+    const newGoal = { /* Creates a new goal object (Commented by Agnirva.com) */
+      id: AgnirvagenerateGoalId(), /* Assigns a unique ID to the new goal (Commented by Agnirva.com) */
+      description, /* Sets the goal description (Commented by Agnirva.com) */
+      targetCount: target /* Sets the target count for the goal (Commented by Agnirva.com) */
+    };
+    
+    Agnirvagoals.push(newGoal); /* Adds the new goal to the goals array (Commented by Agnirva.com) */
+    localStorage.setItem('goals', JSON.stringify(Agnirvagoals)); /* Saves the updated goals array to localStorage (Commented by Agnirva.com) */
+    
+    AgnirvagoalDescriptionEl.value = ''; /* Clears the goal description input field (Commented by Agnirva.com) */
+    AgnirvagoalTargetEl.value = ''; /* Clears the goal target input field (Commented by Agnirva.com) */
+    
+    AgnirvarenderGoals(); /* Re-renders the goals list to include the new goal (Commented by Agnirva.com) */
+    AgnirvapopulateGoalDropdowns(); /* Updates the goal dropdowns with the new goal (Commented by Agnirva.com) */
+    AgnirvarenderChart(); /* Updates the activity progress chart (Commented by Agnirva.com) */
+  });
+  
+  // Render Goals List
+  function AgnirvarenderGoals() { /* Function to render the list of goals (Commented by Agnirva.com) */
+    AgnirvagoalsListEl.innerHTML = ''; /* Clears the current goals list display (Commented by Agnirva.com) */
+    
+    if (Agnirvagoals.length === 0) { /* Checks if there are no goals (Commented by Agnirva.com) */
+      AgnirvagoalsListEl.innerHTML = '<p>No goals set yet.</p>'; /* Displays a message indicating no goals are set (Commented by Agnirva.com) */
+      return; /* Exits the function if no goals are present (Commented by Agnirva.com) */
+    }
+    
+    Agnirvagoals.forEach(goal => { /* Iterates over each goal in the goals array (Commented by Agnirva.com) */
+      // Calculate progress
+      const AgnirvaassociatedActivities = Agnirvaactivities.filter(act => act.goalId === goal.id); /* Filters activities associated with the current goal (Commented by Agnirva.com) */
+      const Agnirvacount = AgnirvaassociatedActivities.length; /* Counts the number of associated activities (Commented by Agnirva.com) */
+      const Agnirvapprogress = Math.min((Agnirvacount / goal.targetCount) * 100, 100); /* Calculates the progress percentage, capped at 100% (Commented by Agnirva.com) */
+      const Agnirvaremaining = goal.targetCount - Agnirvacount; /* Calculates the remaining activities needed to reach the goal (Commented by Agnirva.com) */
+      
+      // Create Goal Card
+      const AgnirvagoalCard = document.createElement('div'); /* Creates a new div element for the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.style.border = '1px solid #ccc'; /* Adds a border to the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.style.padding = '10px'; /* Adds padding inside the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.style.marginBottom = '10px'; /* Adds space below the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.style.borderRadius = '4px'; /* Rounds the corners of the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.style.backgroundColor = '#fdfdfd'; /* Sets a very light background color for the goal card (Commented by Agnirva.com) */
+      
+      const AgnirvagoalDesc = document.createElement('p'); /* Creates a paragraph element for the goal description (Commented by Agnirva.com) */
+      AgnirvagoalDesc.innerHTML = `<strong>Goal:</strong> ${goal.description}`; /* Sets the goal description text (Commented by Agnirva.com) */
+      
+      const AgnirvapprogressContainer = document.createElement('div'); /* Creates a container for the progress bar (Commented by Agnirva.com) */
+      AgnirvapprogressContainer.classList.add('progress-container'); /* Adds the progress-container class for styling (Commented by Agnirva.com) */
+      
+      const AgnirvapprogressBar = document.createElement('div'); /* Creates the progress bar element (Commented by Agnirva.com) */
+      AgnirvapprogressBar.classList.add('progress-bar'); /* Adds the progress-bar class for styling (Commented by Agnirva.com) */
+      AgnirvapprogressBar.style.width = `${Agnirvapprogress}%`; /* Sets the width of the progress bar based on progress (Commented by Agnirva.com) */
+      AgnirvapprogressBar.textContent = `${Math.floor(Agnirvapprogress)}%`; /* Displays the progress percentage inside the progress bar (Commented by Agnirva.com) */
+      
+      AgnirvapprogressContainer.appendChild(AgnirvapprogressBar); /* Adds the progress bar to its container (Commented by Agnirva.com) */
+      
+      const AgnirvacountP = document.createElement('p'); /* Creates a paragraph element for activity count (Commented by Agnirva.com) */
+      AgnirvacountP.innerHTML = `<strong>Activities Logged:</strong> ${Agnirvacount} / ${goal.targetCount}`; /* Sets the activity count text (Commented by Agnirva.com) */
+      
+      const AgnirvaremainingP = document.createElement('p'); /* Creates a paragraph element for remaining activities (Commented by Agnirva.com) */
+      AgnirvaremainingP.innerHTML = Agnirvaremaining > 0 ? `You need ${Agnirvaremaining} more activities to reach this goal.` : 'Congratulations! You have reached this goal.'; /* Sets the remaining activities text or a congratulatory message (Commented by Agnirva.com) */
+      
+      // Edit and Delete Buttons
+      const AgnirvaeditBtn = document.createElement('button'); /* Creates an Edit button (Commented by Agnirva.com) */
+      AgnirvaeditBtn.textContent = 'Edit'; /* Sets the button text to 'Edit' (Commented by Agnirva.com) */
+      AgnirvaeditBtn.classList.add('action-btn', 'edit-btn'); /* Adds classes for styling the Edit button (Commented by Agnirva.com) */
+      AgnirvaeditBtn.addEventListener('click', () => AgnirvaeditGoal(goal.id)); /* Adds a click event to edit the goal (Commented by Agnirva.com) */
+      
+      const AgnirvadeleteBtn = document.createElement('button'); /* Creates a Delete button (Commented by Agnirva.com) */
+      AgnirvadeleteBtn.textContent = 'Delete'; /* Sets the button text to 'Delete' (Commented by Agnirva.com) */
+      AgnirvadeleteBtn.classList.add('action-btn', 'delete-btn'); /* Adds classes for styling the Delete button (Commented by Agnirva.com) */
+      AgnirvadeleteBtn.addEventListener('click', () => AgnirvadeleteGoal(goal.id)); /* Adds a click event to delete the goal (Commented by Agnirva.com) */
+      
+      AgnirvagoalCard.appendChild(AgnirvagoalDesc); /* Adds the goal description to the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.appendChild(AgnirvapprogressContainer); /* Adds the progress bar container to the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.appendChild(AgnirvacountP); /* Adds the activity count paragraph to the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.appendChild(AgnirvaremainingP); /* Adds the remaining activities paragraph to the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.appendChild(AgnirvaeditBtn); /* Adds the Edit button to the goal card (Commented by Agnirva.com) */
+      AgnirvagoalCard.appendChild(AgnirvadeleteBtn); /* Adds the Delete button to the goal card (Commented by Agnirva.com) */
+      
+      AgnirvagoalsListEl.appendChild(AgnirvagoalCard); /* Adds the complete goal card to the goals list container (Commented by Agnirva.com) */
+    });
+  }
+  
+  // Populate Goal Dropdowns
+  function AgnirvapopulateGoalDropdowns() { /* Function to populate goal dropdowns in logging and filtering sections (Commented by Agnirva.com) */
+    // Activity Logging Dropdown
+    AgnirvaactivityGoalEl.innerHTML = ''; /* Clears the activity goal dropdown (Commented by Agnirva.com) */
+    if (Agnirvagoals.length === 0) { /* Checks if there are no goals (Commented by Agnirva.com) */
+      AgnirvaactivityGoalEl.innerHTML = '<option value="">No goals available</option>'; /* Displays a message if no goals are available (Commented by Agnirva.com) */
+      AgnirvalogActivityBtn.disabled = true; /* Disables the Log Activity button if no goals exist (Commented by Agnirva.com) */
+    } else {
+      AgnirvalogActivityBtn.disabled = false; /* Enables the Log Activity button if goals are present (Commented by Agnirva.com) */
+      AgnirvaactivityGoalEl.innerHTML = '<option value="">Select a Goal</option>'; /* Adds a default option to the dropdown (Commented by Agnirva.com) */
+      Agnirvagoals.forEach(goal => { /* Iterates over each goal to add as an option (Commented by Agnirva.com) */
+        const option = document.createElement('option'); /* Creates a new option element (Commented by Agnirva.com) */
+        option.value = goal.id; /* Sets the option value to the goal's ID (Commented by Agnirva.com) */
+        option.textContent = goal.description; /* Sets the option text to the goal's description (Commented by Agnirva.com) */
+        AgnirvaactivityGoalEl.appendChild(option); /* Adds the option to the activity goal dropdown (Commented by Agnirva.com) */
+      });
+    }
+    
+    // Activity Filtering Dropdown
+    AgnirvafilterGoalEl.innerHTML = ''; /* Clears the filter goal dropdown (Commented by Agnirva.com) */
+    if (Agnirvagoals.length === 0) { /* Checks if there are no goals (Commented by Agnirva.com) */
+      AgnirvafilterGoalEl.innerHTML = '<option value="">No goals available</option>'; /* Displays a message if no goals are available (Commented by Agnirva.com) */
+    } else {
+      AgnirvafilterGoalEl.innerHTML = '<option value="">All Goals</option>'; /* Adds a default option to show all goals (Commented by Agnirva.com) */
+      Agnirvagoals.forEach(goal => { /* Iterates over each goal to add as an option (Commented by Agnirva.com) */
+        const option = document.createElement('option'); /* Creates a new option element (Commented by Agnirva.com) */
+        option.value = goal.id; /* Sets the option value to the goal's ID (Commented by Agnirva.com) */
+        option.textContent = goal.description; /* Sets the option text to the goal's description (Commented by Agnirva.com) */
+        AgnirvafilterGoalEl.appendChild(option); /* Adds the option to the filter goal dropdown (Commented by Agnirva.com) */
+      });
+    }
+  }
+  
+  // Log New Activity
+  AgnirvalogActivityBtn.addEventListener('click', () => { /* Adds a click event listener to the Log Activity button (Commented by Agnirva.com) */
+    const name = AgnirvaactivityNameEl.value.trim(); /* Gets and trims the activity name input value (Commented by Agnirva.com) */
+    const date = AgnirvaactivityDateEl.value; /* Gets the activity date input value (Commented by Agnirva.com) */
+    const description = AgnirvaactivityDescriptionEl.value.trim(); /* Gets and trims the activity description input value (Commented by Agnirva.com) */
+    const goalId = AgnirvaactivityGoalEl.value; /* Gets the selected goal ID from the dropdown (Commented by Agnirva.com) */
+    
+    if (!name || !date || !description) { /* Checks if any activity fields are empty (Commented by Agnirva.com) */
+      alert('Please fill in all activity fields.'); /* Alerts the user to fill in all fields (Commented by Agnirva.com) */
+      return; /* Exits the function if any fields are empty (Commented by Agnirva.com) */
+    }
+    if (!goalId) { /* Checks if no goal is selected (Commented by Agnirva.com) */
+      alert('Please select a goal to associate the activity with.'); /* Alerts the user to select a goal (Commented by Agnirva.com) */
+      return; /* Exits the function if no goal is selected (Commented by Agnirva.com) */
+    }
+    
+    const newActivity = { /* Creates a new activity object (Commented by Agnirva.com) */
+      id: 'activity-' + Date.now(), /* Assigns a unique ID to the new activity (Commented by Agnirva.com) */
+      name, /* Sets the activity name (Commented by Agnirva.com) */
+      date, /* Sets the activity date (Commented by Agnirva.com) */
+      description, /* Sets the activity description (Commented by Agnirva.com) */
+      goalId /* Associates the activity with a goal ID (Commented by Agnirva.com) */
+    };
+    
+    Agnirvaactivities.push(newActivity); /* Adds the new activity to the activities array (Commented by Agnirva.com) */
+    localStorage.setItem('activities', JSON.stringify(Agnirvaactivities)); /* Saves the updated activities array to localStorage (Commented by Agnirva.com) */
+    
+    // Clear input fields
+    AgnirvaactivityNameEl.value = ''; /* Clears the activity name input field (Commented by Agnirva.com) */
+    AgnirvaactivityDateEl.value = ''; /* Clears the activity date input field (Commented by Agnirva.com) */
+    AgnirvaactivityDescriptionEl.value = ''; /* Clears the activity description input field (Commented by Agnirva.com) */
+    AgnirvaactivityGoalEl.value = ''; /* Clears the activity goal dropdown selection (Commented by Agnirva.com) */
+    
+    AgnirvarenderActivities(); /* Re-renders the activities list to include the new activity (Commented by Agnirva.com) */
+    AgnirvarenderGoals(); /* Updates the goals to reflect the new activity count (Commented by Agnirva.com) */
+    AgnirvarenderChart(); /* Updates the activity progress chart (Commented by Agnirva.com) */
+  });
+  
+  // Render Activities Table
+  function AgnirvarenderActivities(filteredActivities = Agnirvaactivities) { /* Function to render the activities table, optionally with filtered activities (Commented by Agnirva.com) */
+    AgnirvaactivityTableBody.innerHTML = ''; /* Clears the current activities table body (Commented by Agnirva.com) */
+    
+    if (filteredActivities.length === 0) { /* Checks if there are no activities to display (Commented by Agnirva.com) */
+      AgnirvaactivityTableBody.innerHTML = '<tr><td colspan="5">No activities logged yet.</td></tr>'; /* Displays a message indicating no activities are logged (Commented by Agnirva.com) */
+      return; /* Exits the function if no activities are present (Commented by Agnirva.com) */
+    }
+    
+    filteredActivities.sort((a, b) => new Date(b.date) - new Date(a.date)); /* Sorts activities by date in descending order (Commented by Agnirva.com) */
+    
+    filteredActivities.forEach((act, index) => { /* Iterates over each activity to create table rows (Commented by Agnirva.com) */
+      const row = document.createElement('tr'); /* Creates a new table row element (Commented by Agnirva.com) */
+      
+      const nameTd = document.createElement('td'); /* Creates a table cell for activity name (Commented by Agnirva.com) */
+      nameTd.textContent = act.name; /* Sets the cell text to the activity name (Commented by Agnirva.com) */
+      
+      const dateTd = document.createElement('td'); /* Creates a table cell for activity date (Commented by Agnirva.com) */
+      dateTd.textContent = act.date; /* Sets the cell text to the activity date (Commented by Agnirva.com) */
+      
+      const descTd = document.createElement('td'); /* Creates a table cell for activity description (Commented by Agnirva.com) */
+      descTd.textContent = act.description; /* Sets the cell text to the activity description (Commented by Agnirva.com) */
+      
+      const goalTd = document.createElement('td'); /* Creates a table cell for associated goal (Commented by Agnirva.com) */
+      const goal = Agnirvagoals.find(g => g.id === act.goalId); /* Finds the goal associated with the activity (Commented by Agnirva.com) */
+      goalTd.textContent = goal ? goal.description : 'No Goal'; /* Sets the cell text to the goal description or 'No Goal' if none (Commented by Agnirva.com) */
+      
+      const actionsTd = document.createElement('td'); /* Creates a table cell for action buttons (Commented by Agnirva.com) */
+      
+      // Edit Button
+      const AgnirvaeditBtn = document.createElement('button'); /* Creates an Edit button for the activity (Commented by Agnirva.com) */
+      AgnirvaeditBtn.textContent = 'Edit'; /* Sets the button text to 'Edit' (Commented by Agnirva.com) */
+      AgnirvaeditBtn.classList.add('action-btn', 'edit-btn'); /* Adds classes for styling the Edit button (Commented by Agnirva.com) */
+      AgnirvaeditBtn.addEventListener('click', () => AgnirvaeditActivity(act.id)); /* Adds a click event to edit the activity (Commented by Agnirva.com) */
+      
+      // Delete Button
+      const AgnirvadeleteBtn = document.createElement('button'); /* Creates a Delete button for the activity (Commented by Agnirva.com) */
+      AgnirvadeleteBtn.textContent = 'Delete'; /* Sets the button text to 'Delete' (Commented by Agnirva.com) */
+      AgnirvadeleteBtn.classList.add('action-btn', 'delete-btn'); /* Adds classes for styling the Delete button (Commented by Agnirva.com) */
+      AgnirvadeleteBtn.addEventListener('click', () => AgnirvadeleteActivity(act.id)); /* Adds a click event to delete the activity (Commented by Agnirva.com) */
+      
+      actionsTd.appendChild(AgnirvaeditBtn); /* Adds the Edit button to the actions cell (Commented by Agnirva.com) */
+      actionsTd.appendChild(AgnirvadeleteBtn); /* Adds the Delete button to the actions cell (Commented by Agnirva.com) */
+      
+      row.appendChild(nameTd); /* Adds the activity name cell to the row (Commented by Agnirva.com) */
+      row.appendChild(dateTd); /* Adds the activity date cell to the row (Commented by Agnirva.com) */
+      row.appendChild(descTd); /* Adds the activity description cell to the row (Commented by Agnirva.com) */
+      row.appendChild(goalTd); /* Adds the associated goal cell to the row (Commented by Agnirva.com) */
+      row.appendChild(actionsTd); /* Adds the actions cell to the row (Commented by Agnirva.com) */
+      
+      AgnirvaactivityTableBody.appendChild(row); /* Adds the completed row to the activities table body (Commented by Agnirva.com) */
+    });
+  }
+  
+  // Edit Goal
+  function AgnirvaeditGoal(goalId) { /* Function to edit a goal based on its ID (Commented by Agnirva.com) */
+    const goal = Agnirvagoals.find(g => g.id === goalId); /* Finds the goal to be edited (Commented by Agnirva.com) */
+    if (!goal) return; /* Exits the function if the goal is not found (Commented by Agnirva.com) */
+    
+    const newDescription = prompt('Edit Goal Description:', goal.description); /* Prompts the user to enter a new description (Commented by Agnirva.com) */
+    if (newDescription === null) return; /* Exits if the user cancels the prompt (Commented by Agnirva.com) */
+    
+    const newTarget = prompt('Edit Goal Target Count:', goal.targetCount); /* Prompts the user to enter a new target count (Commented by Agnirva.com) */
+    if (newTarget === null) return; /* Exits if the user cancels the prompt (Commented by Agnirva.com) */
+    const parsedTarget = parseInt(newTarget); /* Parses the new target count as an integer (Commented by Agnirva.com) */
+    if (isNaN(parsedTarget) || parsedTarget <= 0) { /* Validates the new target count (Commented by Agnirva.com) */
+      alert('Please enter a valid target count.'); /* Alerts the user if the target count is invalid (Commented by Agnirva.com) */
+      return; /* Exits the function if the target count is invalid (Commented by Agnirva.com) */
+    }
+    
+    goal.description = newDescription.trim(); /* Updates the goal description with the new value (Commented by Agnirva.com) */
+    goal.targetCount = parsedTarget; /* Updates the goal target count with the new value (Commented by Agnirva.com) */
+    
+    localStorage.setItem('goals', JSON.stringify(Agnirvagoals)); /* Saves the updated goals array to localStorage (Commented by Agnirva.com) */
+    
+    AgnirvarenderGoals(); /* Re-renders the goals list to reflect changes (Commented by Agnirva.com) */
+    AgnirvapopulateGoalDropdowns(); /* Updates the goal dropdowns with the edited goal (Commented by Agnirva.com) */
+    AgnirvarenderChart(); /* Updates the activity progress chart (Commented by Agnirva.com) */
+  }
+  
+  // Delete Goal
+  function AgnirvadeleteGoal(goalId) { /* Function to delete a goal based on its ID (Commented by Agnirva.com) */
+    if (!confirm('Deleting this goal will also remove all associated activities. Are you sure?')) return; /* Confirms deletion with the user (Commented by Agnirva.com) */
+    
+    // Remove goal
+    Agnirvagoals = Agnirvagoals.filter(g => g.id !== goalId); /* Removes the goal from the goals array (Commented by Agnirva.com) */
+    localStorage.setItem('goals', JSON.stringify(Agnirvagoals)); /* Saves the updated goals array to localStorage (Commented by Agnirva.com) */
+    
+    // Remove associated activities
+    Agnirvaactivities = Agnirvaactivities.filter(act => act.goalId !== goalId); /* Removes activities associated with the deleted goal (Commented by Agnirva.com) */
+    localStorage.setItem('activities', JSON.stringify(Agnirvaactivities)); /* Saves the updated activities array to localStorage (Commented by Agnirva.com) */
+    
+    AgnirvarenderGoals(); /* Re-renders the goals list to reflect deletion (Commented by Agnirva.com) */
+    AgnirvapopulateGoalDropdowns(); /* Updates the goal dropdowns after deletion (Commented by Agnirva.com) */
+    AgnirvarenderActivities(); /* Re-renders the activities list to remove associated activities (Commented by Agnirva.com) */
+    AgnirvarenderChart(); /* Updates the activity progress chart (Commented by Agnirva.com) */
+  }
+  
+  // Edit Activity
+  function AgnirvaeditActivity(activityId) { /* Function to edit an activity based on its ID (Commented by Agnirva.com) */
+    const activity = Agnirvaactivities.find(act => act.id === activityId); /* Finds the activity to be edited (Commented by Agnirva.com) */
+    if (!activity) return; /* Exits the function if the activity is not found (Commented by Agnirva.com) */
+    
+    const newName = prompt('Edit Activity Name:', activity.name); /* Prompts the user to enter a new activity name (Commented by Agnirva.com) */
+    if (newName === null) return; /* Exits if the user cancels the prompt (Commented by Agnirva.com) */
+    
+    const newDate = prompt('Edit Activity Date:', activity.date); /* Prompts the user to enter a new activity date (Commented by Agnirva.com) */
+    if (newDate === null) return; /* Exits if the user cancels the prompt (Commented by Agnirva.com) */
+    
+    const newDesc = prompt('Edit Activity Description:', activity.description); /* Prompts the user to enter a new activity description (Commented by Agnirva.com) */
+    if (newDesc === null) return; /* Exits if the user cancels the prompt (Commented by Agnirva.com) */
+    
+    // Select new goal
+    const newGoalId = prompt('Enter the Goal ID to associate with this activity:', activity.goalId); /* Prompts the user to enter a new goal ID (Commented by Agnirva.com) */
+    if (newGoalId === null) return; /* Exits if the user cancels the prompt (Commented by Agnirva.com) */
+    const goalExists = Agnirvagoals.some(g => g.id === newGoalId); /* Checks if the entered goal ID exists (Commented by Agnirva.com) */
+    if (!goalExists) { /* If the goal ID does not exist (Commented by Agnirva.com) */
+      alert('Invalid Goal ID. Activity will not be updated.'); /* Alerts the user about the invalid goal ID (Commented by Agnirva.com) */
+      return; /* Exits the function without updating the activity (Commented by Agnirva.com) */
+    }
+    
+    // Update activity
+    activity.name = newName.trim(); /* Updates the activity name with the new value (Commented by Agnirva.com) */
+    activity.date = newDate.trim(); /* Updates the activity date with the new value (Commented by Agnirva.com) */
+    activity.description = newDesc.trim(); /* Updates the activity description with the new value (Commented by Agnirva.com) */
+    activity.goalId = newGoalId; /* Updates the activity's associated goal ID (Commented by Agnirva.com) */
+    
+    localStorage.setItem('activities', JSON.stringify(Agnirvaactivities)); /* Saves the updated activities array to localStorage (Commented by Agnirva.com) */
+    
+    AgnirvarenderActivities(); /* Re-renders the activities list to reflect changes (Commented by Agnirva.com) */
+    AgnirvarenderGoals(); /* Updates the goals to reflect any changes in activity counts (Commented by Agnirva.com) */
+    AgnirvarenderChart(); /* Updates the activity progress chart (Commented by Agnirva.com) */
+  }
+  
+  // Delete Activity
+  function AgnirvadeleteActivity(activityId) { /* Function to delete an activity based on its ID (Commented by Agnirva.com) */
+    if (!confirm('Are you sure you want to delete this activity?')) return; /* Confirms deletion with the user (Commented by Agnirva.com) */
+    
+    Agnirvaactivities = Agnirvaactivities.filter(act => act.id !== activityId); /* Removes the activity from the activities array (Commented by Agnirva.com) */
+    localStorage.setItem('activities', JSON.stringify(Agnirvaactivities)); /* Saves the updated activities array to localStorage (Commented by Agnirva.com) */
+    
+    AgnirvarenderActivities(); /* Re-renders the activities list to reflect deletion (Commented by Agnirva.com) */
+    AgnirvarenderGoals(); /* Updates the goals to reflect changes in activity counts (Commented by Agnirva.com) */
+    AgnirvarenderChart(); /* Updates the activity progress chart (Commented by Agnirva.com) */
+  }
+  
+  // Filter Activities
+  AgnirvaapplyFilterBtn.addEventListener('click', () => { /* Adds a click event listener to the Apply Filter button (Commented by Agnirva.com) */
+    const filter = AgnirvafilterOptionEl.value; /* Gets the selected filter option (Commented by Agnirva.com) */
+    let AgnirvafilteredActivities = []; /* Initializes an array to hold filtered activities (Commented by Agnirva.com) */
+    
+    const today = new Date(); /* Gets the current date (Commented by Agnirva.com) */
+    
+    if (filter === 'all') { /* If the filter is set to 'All' (Commented by Agnirva.com) */
+      AgnirvafilteredActivities = Agnirvaactivities; /* Shows all activities (Commented by Agnirva.com) */
+    } else if (filter === 'week') { /* If the filter is set to 'This Week' (Commented by Agnirva.com) */
+      const weekAgo = new Date(); /* Creates a new date object for a week ago (Commented by Agnirva.com) */
+      weekAgo.setDate(today.getDate() - 7); /* Sets the date to one week before today (Commented by Agnirva.com) */
+      AgnirvafilteredActivities = Agnirvaactivities.filter(act => new Date(act.date) >= weekAgo); /* Filters activities from the past week (Commented by Agnirva.com) */
+    } else if (filter === 'month') { /* If the filter is set to 'This Month' (Commented by Agnirva.com) */
+      const monthAgo = new Date(); /* Creates a new date object for a month ago (Commented by Agnirva.com) */
+      monthAgo.setMonth(today.getMonth() - 1); /* Sets the date to one month before today (Commented by Agnirva.com) */
+      AgnirvafilteredActivities = Agnirvaactivities.filter(act => new Date(act.date) >= monthAgo); /* Filters activities from the past month (Commented by Agnirva.com) */
+    } else if (filter === 'goal') { /* If the filter is set to 'By Goal' (Commented by Agnirva.com) */
+      const selectedGoalId = AgnirvafilterGoalEl.value; /* Gets the selected goal ID for filtering (Commented by Agnirva.com) */
+      if (selectedGoalId) { /* If a specific goal is selected (Commented by Agnirva.com) */
+        AgnirvafilteredActivities = Agnirvaactivities.filter(act => act.goalId === selectedGoalId); /* Filters activities associated with the selected goal (Commented by Agnirva.com) */
+      } else {
+        AgnirvafilteredActivities = Agnirvaactivities; /* If no specific goal is selected, show all activities (Commented by Agnirva.com) */
+      }
+    } else if (filter === 'custom') { /* If the filter is set to 'Custom Range' (Commented by Agnirva.com) */
+      const startDate = new Date(AgnirvastartDateEl.value); /* Gets the start date for the custom range (Commented by Agnirva.com) */
+      const endDate = new Date(AgnirvaendDateEl.value); /* Gets the end date for the custom range (Commented by Agnirva.com) */
+      if (isNaN(startDate) || isNaN(endDate)) { /* Checks if the entered dates are valid (Commented by Agnirva.com) */
+        alert('Please select valid start and end dates.'); /* Alerts the user to enter valid dates (Commented by Agnirva.com) */
+        return; /* Exits the function if dates are invalid (Commented by Agnirva.com) */
+      }
+      if (startDate > endDate) { /* Checks if the start date is after the end date (Commented by Agnirva.com) */
+        alert('Start date cannot be after end date.'); /* Alerts the user about the invalid date range (Commented by Agnirva.com) */
+        return; /* Exits the function if the date range is invalid (Commented by Agnirva.com) */
+      }
+      AgnirvafilteredActivities = Agnirvaactivities.filter(act => { /* Filters activities within the custom date range (Commented by Agnirva.com) */
+        const actDate = new Date(act.date); /* Converts the activity date to a Date object (Commented by Agnirva.com) */
+        return actDate >= startDate && actDate <= endDate; /* Checks if the activity date is within the range (Commented by Agnirva.com) */
+      });
+    }
+    
+    AgnirvarenderActivities(AgnirvafilteredActivities); /* Renders the activities table with the filtered activities (Commented by Agnirva.com) */
+  });
+  
+  // Show/Hide Additional Filter Options
+  AgnirvafilterOptionEl.addEventListener('change', () => { /* Adds a change event listener to the filter option dropdown (Commented by Agnirva.com) */
+    const filter = AgnirvafilterOptionEl.value; /* Gets the selected filter option (Commented by Agnirva.com) */
+    if (filter === 'custom') { /* If 'Custom Range' is selected (Commented by Agnirva.com) */
+      AgnirvacustomDateRangeEl.style.display = 'block'; /* Shows the custom date range inputs (Commented by Agnirva.com) */
+      AgnirvagoalFilterEl.style.display = 'none'; /* Hides the goal filter dropdown (Commented by Agnirva.com) */
+    } else if (filter === 'goal') { /* If 'By Goal' is selected (Commented by Agnirva.com) */
+      AgnirvagoalFilterEl.style.display = 'block'; /* Shows the goal filter dropdown (Commented by Agnirva.com) */
+      AgnirvacustomDateRangeEl.style.display = 'none'; /* Hides the custom date range inputs (Commented by Agnirva.com) */
+    } else {
+      AgnirvacustomDateRangeEl.style.display = 'none'; /* Hides the custom date range inputs for other filters (Commented by Agnirva.com) */
+      AgnirvagoalFilterEl.style.display = 'none'; /* Hides the goal filter dropdown for other filters (Commented by Agnirva.com) */
+    }
+  });
+  
+  // Render Chart
+  function AgnirvarenderChart() { /* Function to render the activity progress chart (Commented by Agnirva.com) */
+    // Prepare data: count activities per week
+    const AgnirvaactivityDates = Agnirvaactivities.map(act => new Date(act.date)); /* Extracts activity dates as Date objects (Commented by Agnirva.com) */
+    const Agnirvawweeks = {}; /* Initializes an object to hold activity counts per week (Commented by Agnirva.com) */
+    
+    AgnirvaactivityDates.forEach(date => { /* Iterates over each activity date (Commented by Agnirva.com) */
+      const year = date.getFullYear(); /* Gets the year of the activity date (Commented by Agnirva.com) */
+      const week = AgnirvagetWeekNumber(date); /* Gets the week number of the activity date (Commented by Agnirva.com) */
+      const key = `${year}-W${week}`; /* Creates a key in the format 'YYYY-WW' for grouping (Commented by Agnirva.com) */
+      Agnirvawweeks[key] = (Agnirvawweeks[key] || 0) + 1; /* Increments the count for the corresponding week (Commented by Agnirva.com) */
+    });
+    
+    const Agnirvalabels = Object.keys(Agnirvawweeks).sort(); /* Gets and sorts the week keys for labeling the chart (Commented by Agnirva.com) */
+    const Agnirvadata = Agnirvalabels.map(label => Agnirvawweeks[label]); /* Maps the activity counts to the sorted labels (Commented by Agnirva.com) */
+    
+    if (AgnirvaactivityChart) { /* Checks if a chart instance already exists (Commented by Agnirva.com) */
+      AgnirvaactivityChart.destroy(); /* Destroys the existing chart to prevent duplication (Commented by Agnirva.com) */
+    }
+    
+    AgnirvaactivityChart = new Chart(AgnirvaactivityChartCtx, { /* Creates a new Chart.js bar chart instance (Commented by Agnirva.com) */
+      type: 'bar', /* Specifies the chart type as a bar chart (Commented by Agnirva.com) */
+      data: {
+        labels: Agnirvalabels, /* Sets the labels for the x-axis (Commented by Agnirva.com) */
+        datasets: [{
+          label: '# of Activities', /* Sets the label for the dataset (Commented by Agnirva.com) */
+          data: Agnirvadata, /* Sets the data points for the dataset (Commented by Agnirva.com) */
+          backgroundColor: '#28a745', /* Sets the bar color (Commented by Agnirva.com) */
+        }]
+      },
+      options: {
+        responsive: true, /* Makes the chart responsive to screen size (Commented by Agnirva.com) */
+        scales: {
+          x: {
+            title: {
+              display: true, /* Displays the x-axis title (Commented by Agnirva.com) */
+              text: 'Week' /* Sets the x-axis title text (Commented by Agnirva.com) */
+            }
+          },
+          y: {
+            beginAtZero: true, /* Starts the y-axis at zero (Commented by Agnirva.com) */
+            title: {
+              display: true, /* Displays the y-axis title (Commented by Agnirva.com) */
+              text: 'Number of Activities' /* Sets the y-axis title text (Commented by Agnirva.com) */
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  // Helper function to get week number
+  function AgnirvagetWeekNumber(d) { /* Function to calculate the ISO week number for a given date (Commented by Agnirva.com) */
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); /* Creates a UTC date object (Commented by Agnirva.com) */
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7)); /* Adjusts the date to the nearest Thursday (Commented by Agnirva.com) */
+    const AgnirvayearStart = new Date(Date.UTC(d.getFullYear(),0,1)); /* Gets the start of the year (Commented by Agnirva.com) */
+    const AgnirvawweekNo = Math.ceil((((d - AgnirvayearStart) / 86400000) + 1)/7); /* Calculates the week number (Commented by Agnirva.com) */
+    return AgnirvawweekNo; /* Returns the calculated week number (Commented by Agnirva.com) */
+  }
+  
+  // Initial Render
+  Agnirvainit(); /* Calls the initialization function to set up the application (Commented by Agnirva.com) */
+</script>
+
+</body>
+</html>

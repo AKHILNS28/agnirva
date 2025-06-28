@@ -1,0 +1,29 @@
+<!-- templates/upload.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Main content row to center the form  (Commented by Agnirva.com) -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Header with upload icon and title  (Commented by Agnirva.com) -->
+            <h2 class="mb-4"><i class="fas fa-upload"></i> Upload a New Post</h2>
+            <div class="card p-4 shadow-sm">
+                <!-- Form for image upload  (Commented by Agnirva.com) -->
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- Image selection input field  (Commented by Agnirva.com) -->
+                    <div class="mb-3">
+                        <label for="image" class="form-label"><i class="fas fa-image"></i> Select Image</label>
+                        <input type="file" name="image" class="form-control" id="image" accept="image/*" required> <!-- Ensures only image files are accepted  (Commented by Agnirva.com) -->
+                    </div>
+                    <!-- Caption input field, optional  (Commented by Agnirva.com) -->
+                    <div class="mb-4">
+                        <label for="caption" class="form-label"><i class="fas fa-pen"></i> Caption</label>
+                        <textarea name="caption" class="form-control" id="caption" rows="3" placeholder="Write a caption (optional)"></textarea>
+                    </div>
+                    <!-- Submit button to post the image  (Commented by Agnirva.com) -->
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-share"></i> Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

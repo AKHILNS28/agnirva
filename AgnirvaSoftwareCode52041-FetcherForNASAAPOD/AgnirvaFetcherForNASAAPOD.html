@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Specifies the language of the document as English (Commented by Agnirva.com) -->
+<head>
+  <meta charset="UTF-8"> <!-- Sets the character encoding for the HTML document to UTF-8 (Commented by Agnirva.com) -->
+  <title>NASA Astronomy Picture of the Day</title> <!-- Defines the title of the webpage shown in the browser tab (Commented by Agnirva.com) -->
+  <style>
+    /* Basic Reset (Commented by Agnirva.com) */
+    * {
+      margin: 0; /* Removes default margin from all elements (Commented by Agnirva.com) */
+      padding: 0; /* Removes default padding from all elements (Commented by Agnirva.com) */
+      box-sizing: border-box; /* Sets box-sizing to border-box for better layout control (Commented by Agnirva.com) */
+    }
+
+    /* Body Styling (Commented by Agnirva.com) */
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Sets the font family for the body (Commented by Agnirva.com) */
+      background-color: #000000; /* Sets the background color of the body to black (Commented by Agnirva.com) */
+      color: #ffffff; /* Sets the text color to white (Commented by Agnirva.com) */
+      min-height: 100vh; /* Ensures the body takes at least the full viewport height (Commented by Agnirva.com) */
+      display: flex; /* Uses Flexbox for layout (Commented by Agnirva.com) */
+      flex-direction: column; /* Arranges flex items in a column (Commented by Agnirva.com) */
+      align-items: center; /* Centers items horizontally (Commented by Agnirva.com) */
+      justify-content: flex-start; /* Aligns items to the start vertically (Commented by Agnirva.com) */
+      padding: 20px; /* Adds padding around the body content (Commented by Agnirva.com) */
+      overflow-x: hidden; /* Hides horizontal overflow (Commented by Agnirva.com) */
+      background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); /* Optional: subtle starry background (Commented by Agnirva.com) */
+      background-size: cover; /* Ensures the background image covers the entire background (Commented by Agnirva.com) */
+    }
+
+    /* Header Styling (Commented by Agnirva.com) */
+    header {
+      text-align: center; /* Centers the text inside the header (Commented by Agnirva.com) */
+      margin-bottom: 30px; /* Adds space below the header (Commented by Agnirva.com) */
+      animation: fadeInDown 1.5s ease-out; /* Applies the fadeInDown animation to the header (Commented by Agnirva.com) */
+    }
+
+    header h1 {
+      font-size: 2.5rem; /* Sets the font size of the h1 element (Commented by Agnirva.com) */
+      letter-spacing: 2px; /* Increases the spacing between letters (Commented by Agnirva.com) */
+      font-weight: 300; /* Sets the font weight to light (Commented by Agnirva.com) */
+      color: #ffffff; /* Sets the text color to white (Commented by Agnirva.com) */
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Adds a subtle shadow to the text (Commented by Agnirva.com) */
+    }
+
+    /* Date Picker Styling (Commented by Agnirva.com) */
+    .date-picker {
+      display: flex; /* Uses Flexbox for layout within the date-picker (Commented by Agnirva.com) */
+      align-items: center; /* Centers items vertically (Commented by Agnirva.com) */
+      margin-bottom: 40px; /* Adds space below the date-picker (Commented by Agnirva.com) */
+      animation: fadeInUp 1.5s ease-out; /* Applies the fadeInUp animation to the date-picker (Commented by Agnirva.com) */
+    }
+
+    .date-picker input[type="date"] {
+      padding: 10px 15px; /* Adds padding inside the date input field (Commented by Agnirva.com) */
+      border: none; /* Removes the default border (Commented by Agnirva.com) */
+      border-radius: 5px; /* Rounds the corners of the input field (Commented by Agnirva.com) */
+      background-color: #1a1a1a; /* Sets the background color of the input field (Commented by Agnirva.com) */
+      color: #ffffff; /* Sets the text color to white (Commented by Agnirva.com) */
+      font-size: 1rem; /* Sets the font size (Commented by Agnirva.com) */
+      margin-right: 15px; /* Adds space to the right of the input field (Commented by Agnirva.com) */
+      outline: none; /* Removes the default outline on focus (Commented by Agnirva.com) */
+      transition: background-color 0.3s ease; /* Adds a transition effect for background color changes (Commented by Agnirva.com) */
+    }
+
+    .date-picker input[type="date"]::before {
+      content: '📅'; /* Adds a calendar emoji before the input field (Commented by Agnirva.com) */
+      margin-right: 8px; /* Adds space between the emoji and the input field (Commented by Agnirva.com) */
+    }
+
+    .date-picker input[type="date"]:hover {
+      background-color: #333333; /* Changes background color on hover (Commented by Agnirva.com) */
+    }
+
+    .date-picker button {
+      padding: 10px 25px; /* Adds padding inside the button (Commented by Agnirva.com) */
+      border: none; /* Removes the default border (Commented by Agnirva.com) */
+      border-radius: 25px; /* Rounds the corners of the button (Commented by Agnirva.com) */
+      background-color: #1e90ff; /* Sets the button's background color to dodger blue (Commented by Agnirva.com) */
+      color: #ffffff; /* Sets the text color to white (Commented by Agnirva.com) */
+      font-size: 1rem; /* Sets the font size (Commented by Agnirva.com) */
+      cursor: pointer; /* Changes cursor to pointer on hover (Commented by Agnirva.com) */
+      transition: background-color 0.3s ease, transform 0.2s ease; /* Adds transition effects for background color and transform (Commented by Agnirva.com) */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Adds a shadow to the button (Commented by Agnirva.com) */
+    }
+
+    .date-picker button:hover {
+      background-color: #63b3ed; /* Changes background color on hover (Commented by Agnirva.com) */
+      transform: translateY(-2px); /* Moves the button up slightly on hover (Commented by Agnirva.com) */
+    }
+
+    .date-picker button:active {
+      background-color: #1c86ee; /* Changes background color when the button is active/clicked (Commented by Agnirva.com) */
+      transform: translateY(0); /* Resets the button position when active (Commented by Agnirva.com) */
+    }
+
+    /* APOD Display Area (Commented by Agnirva.com) */
+    .apod-container {
+      background: rgba(255, 255, 255, 0.05); /* Sets a semi-transparent background (Commented by Agnirva.com) */
+      backdrop-filter: blur(10px); /* Applies a blur effect to the background (Commented by Agnirva.com) */
+      padding: 30px; /* Adds padding inside the container (Commented by Agnirva.com) */
+      border-radius: 15px; /* Rounds the corners of the container (Commented by Agnirva.com) */
+      width: 100%; /* Sets the width to 100% of the parent container (Commented by Agnirva.com) */
+      max-width: 800px; /* Limits the maximum width to 800px (Commented by Agnirva.com) */
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Adds a shadow effect (Commented by Agnirva.com) */
+      animation: fadeIn 2s ease-out; /* Applies the fadeIn animation to the container (Commented by Agnirva.com) */
+    }
+
+    .apod-title {
+      text-align: center; /* Centers the title text (Commented by Agnirva.com) */
+      font-size: 1.8rem; /* Sets the font size of the title (Commented by Agnirva.com) */
+      margin-bottom: 20px; /* Adds space below the title (Commented by Agnirva.com) */
+      font-weight: 400; /* Sets the font weight to normal (Commented by Agnirva.com) */
+      color: #ffffff; /* Sets the text color to white (Commented by Agnirva.com) */
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adds a shadow to the text for better readability (Commented by Agnirva.com) */
+    }
+
+    .apod-media {
+      display: flex; /* Uses Flexbox for layout within the media section (Commented by Agnirva.com) */
+      justify-content: center; /* Centers media horizontally (Commented by Agnirva.com) */
+      align-items: center; /* Centers media vertically (Commented by Agnirva.com) */
+      margin-bottom: 20px; /* Adds space below the media section (Commented by Agnirva.com) */
+      overflow: hidden; /* Hides any overflow content (Commented by Agnirva.com) */
+      border-radius: 10px; /* Rounds the corners of the media container (Commented by Agnirva.com) */
+      height: 450px; /* Sets a fixed height for the media container (Commented by Agnirva.com) */
+      background-color: #1a1a1a; /* Sets the background color of the media container (Commented by Agnirva.com) */
+      position: relative; /* Sets position to relative for positioning child elements (Commented by Agnirva.com) */
+    }
+
+    .apod-media img, .apod-media iframe {
+      max-width: 100%; /* Ensures media doesn't exceed the container's width (Commented by Agnirva.com) */
+      max-height: 100%; /* Ensures media doesn't exceed the container's height (Commented by Agnirva.com) */
+      border: none; /* Removes default borders from media elements (Commented by Agnirva.com) */
+      border-radius: 10px; /* Rounds the corners of media elements (Commented by Agnirva.com) */
+      transition: transform 0.5s ease; /* Adds a transition effect for transformations (Commented by Agnirva.com) */
+    }
+
+    .apod-media img:hover, .apod-media iframe:hover {
+      transform: scale(1.05); /* Scales up media slightly on hover for a zoom effect (Commented by Agnirva.com) */
+    }
+
+    .apod-explanation {
+      font-size: 1rem; /* Sets the font size of the explanation text (Commented by Agnirva.com) */
+      line-height: 1.6; /* Sets the line height for better readability (Commented by Agnirva.com) */
+      text-align: justify; /* Justifies the explanation text (Commented by Agnirva.com) */
+      color: #dddddd; /* Sets the text color to light gray (Commented by Agnirva.com) */
+    }
+
+    /* Footer Styling (Commented by Agnirva.com) */
+    footer {
+      margin-top: 40px; /* Adds space above the footer (Commented by Agnirva.com) */
+      font-size: 0.9rem; /* Sets the font size of the footer text (Commented by Agnirva.com) */
+      color: #777777; /* Sets the text color to gray (Commented by Agnirva.com) */
+      animation: fadeIn 2s ease-out; /* Applies the fadeIn animation to the footer (Commented by Agnirva.com) */
+    }
+
+    footer a {
+      color: #1e90ff; /* Sets the link color to dodger blue (Commented by Agnirva.com) */
+      text-decoration: none; /* Removes the underline from links (Commented by Agnirva.com) */
+      transition: color 0.3s ease; /* Adds a transition effect for color changes (Commented by Agnirva.com) */
+    }
+
+    footer a:hover {
+      color: #63b3ed; /* Changes link color on hover (Commented by Agnirva.com) */
+    }
+
+    /* Animations (Commented by Agnirva.com) */
+    @keyframes fadeIn {
+      from { opacity: 0; } /* Starts the fadeIn animation with 0 opacity (Commented by Agnirva.com) */
+      to { opacity: 1; } /* Ends the fadeIn animation with full opacity (Commented by Agnirva.com) */
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); } /* Starts with 0 opacity and shifted up (Commented by Agnirva.com) */
+      to { opacity: 1; transform: translateY(0); } /* Ends with full opacity and original position (Commented by Agnirva.com) */
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); } /* Starts with 0 opacity and shifted down (Commented by Agnirva.com) */
+      to { opacity: 1; transform: translateY(0); } /* Ends with full opacity and original position (Commented by Agnirva.com) */
+    }
+
+    /* Responsive Design (Commented by Agnirva.com) */
+    @media (max-width: 600px) { /* Applies styles for screens with a maximum width of 600px (Commented by Agnirva.com) */
+      header h1 {
+        font-size: 2rem; /* Reduces the font size of the header on smaller screens (Commented by Agnirva.com) */
+      }
+
+      .apod-container {
+        padding: 20px; /* Reduces padding inside the container on smaller screens (Commented by Agnirva.com) */
+      }
+
+      .apod-title {
+        font-size: 1.5rem; /* Reduces the font size of the title on smaller screens (Commented by Agnirva.com) */
+      }
+
+      .apod-media {
+        height: 250px; /* Reduces the height of the media container on smaller screens (Commented by Agnirva.com) */
+      }
+
+      .date-picker {
+        flex-direction: column; /* Stacks the date-picker elements vertically on smaller screens (Commented by Agnirva.com) */
+      }
+
+      .date-picker input[type="date"] {
+        margin-right: 0; /* Removes right margin on smaller screens (Commented by Agnirva.com) */
+        margin-bottom: 15px; /* Adds bottom margin on smaller screens (Commented by Agnirva.com) */
+        width: 100%; /* Sets the input field to full width on smaller screens (Commented by Agnirva.com) */
+      }
+
+      .date-picker button {
+        width: 100%; /* Sets the button to full width on smaller screens (Commented by Agnirva.com) */
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌌 Astronomy Picture of the Day</h1> <!-- Displays the main heading with an emoji (Commented by Agnirva.com) -->
+  </header>
+
+  <div class="date-picker">
+    <input type="date" id="apodDate" max="" /> <!-- Date input for selecting the APOD date (Commented by Agnirva.com) -->
+    <button>🔍 View</button> <!-- Button to fetch and view the selected APOD (Commented by Agnirva.com) -->
+  </div>
+
+  <div class="apod-container" id="apodContainer">
+    <div class="apod-title" id="apodTitle">Loading...</div> <!-- Placeholder for the APOD title (Commented by Agnirva.com) -->
+    <div class="apod-media" id="apodMedia">
+      <!-- Media will be injected here (Commented by Agnirva.com) -->
+    </div>
+    <div class="apod-explanation" id="apodExplanation">Please wait while we fetch the Astronomy Picture of the Day.</div> <!-- Placeholder for the APOD explanation (Commented by Agnirva.com) -->
+  </div>
+
+  <footer>
+    <p>Data provided by <a href="https://api.nasa.gov/" target="_blank" rel="noopener">NASA's APOD API</a></p> <!-- Footer with a link to NASA's APOD API (Commented by Agnirva.com) -->
+  </footer>
+
+  <script>
+    const AgnirvaapiKey = 'DEMO_KEY'; // Your NASA API key (Commented by Agnirva.com)
+
+    document.addEventListener('DOMContentLoaded', () => { // Executes when the DOM is fully loaded (Commented by Agnirva.com)
+      // Set max date to today (Commented by Agnirva.com)
+      const Agnirvatoday = new Date().toISOString().split('T')[0]; // Gets today's date in YYYY-MM-DD format (Commented by Agnirva.com)
+      document.getElementById('apodDate').setAttribute('max', Agnirvatoday); // Sets the maximum selectable date to today (Commented by Agnirva.com)
+
+      // Fetch today's APOD on load (Commented by Agnirva.com)
+      AgnirvafetchAPOD(); // Calls the function to fetch the APOD (Commented by Agnirva.com)
+    });
+
+    async function AgnirvafetchAPOD(Agnirvadate) { // Asynchronous function to fetch APOD data (Commented by Agnirva.com)
+      const AgnirvaapodTitle = document.getElementById('apodTitle'); // References the APOD title element (Commented by Agnirva.com)
+      const AgnirvaapodMedia = document.getElementById('apodMedia'); // References the APOD media element (Commented by Agnirva.com)
+      const AgnirvaapodExplanation = document.getElementById('apodExplanation'); // References the APOD explanation element (Commented by Agnirva.com)
+
+      AgnirvaapodTitle.textContent = 'Loading...'; // Sets the title to "Loading..." while fetching (Commented by Agnirva.com)
+      AgnirvaapodMedia.innerHTML = ''; // Clears any existing media content (Commented by Agnirva.com)
+      AgnirvaapodExplanation.textContent = 'Please wait while we fetch the Astronomy Picture of the Day.'; // Sets the explanation placeholder text (Commented by Agnirva.com)
+
+      let AgnirvaapiUrl = `https://api.nasa.gov/planetary/apod?api_key=${AgnirvaapiKey}`; // Constructs the base API URL with the API key (Commented by Agnirva.com)
+
+      if (Agnirvadate) { // Checks if a specific date is provided (Commented by Agnirva.com)
+        AgnirvaapiUrl += `&date=${Agnirvadate}`; // Appends the selected date to the API URL (Commented by Agnirva.com)
+      } else {
+        // If no date is provided, use today's date (Commented by Agnirva.com)
+        const Agnirvatoday = new Date().toISOString().split('T')[0]; // Gets today's date in YYYY-MM-DD format (Commented by Agnirva.com)
+        AgnirvaapiUrl += `&date=${Agnirvatoday}`; // Appends today's date to the API URL (Commented by Agnirva.com)
+      }
+
+      try {
+        const Agnirvaresponse = await fetch(AgnirvaapiUrl); // Fetches data from the API (Commented by Agnirva.com)
+        if (!Agnirvaresponse.ok) { // Checks if the response is not OK (Commented by Agnirva.com)
+          throw new Error(`Error: ${Agnirvaresponse.status} ${Agnirvaresponse.statusText}`); // Throws an error if the response failed (Commented by Agnirva.com)
+        }
+        const Agnirvadata = await Agnirvaresponse.json(); // Parses the JSON data from the response (Commented by Agnirva.com)
+
+        // Update Title (Commented by Agnirva.com)
+        AgnirvaapodTitle.textContent = Agnirvadata.title; // Sets the APOD title (Commented by Agnirva.com)
+
+        // Update Media (Commented by Agnirva.com)
+        if (Agnirvadata.media_type === 'image') { // Checks if the media type is an image (Commented by Agnirva.com)
+          const Agnirvaimg = document.createElement('img'); // Creates an img element (Commented by Agnirva.com)
+          Agnirvaimg.src = Agnirvadata.hdurl || Agnirvadata.url; // Sets the image source to the high-definition URL if available (Commented by Agnirva.com)
+          Agnirvaimg.alt = Agnirvadata.title; // Sets the alt text for the image (Commented by Agnirva.com)
+          AgnirvaapodMedia.appendChild(Agnirvaimg); // Appends the image to the media container (Commented by Agnirva.com)
+        } else if (Agnirvadata.media_type === 'video') { // Checks if the media type is a video (Commented by Agnirva.com)
+          const Agnirvaiframe = document.createElement('iframe'); // Creates an iframe element (Commented by Agnirva.com)
+          Agnirvaiframe.src = Agnirvadata.url; // Sets the iframe source to the video URL (Commented by Agnirva.com)
+          Agnirvaiframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'; // Sets permissions for the iframe (Commented by Agnirva.com)
+          Agnirvaiframe.allowFullscreen = true; // Allows the video to be viewed in fullscreen (Commented by Agnirva.com)
+          AgnirvaapodMedia.appendChild(Agnirvaiframe); // Appends the iframe to the media container (Commented by Agnirva.com)
+        } else {
+          AgnirvaapodMedia.textContent = 'Media type not supported.'; // Displays a message if the media type is unsupported (Commented by Agnirva.com)
+        }
+
+        // Update Explanation (Commented by Agnirva.com)
+        AgnirvaapodExplanation.textContent = Agnirvadata.explanation; // Sets the APOD explanation text (Commented by Agnirva.com)
+      } catch (Agnirvaerror) { // Catches any errors that occur during the fetch (Commented by Agnirva.com)
+        AgnirvaapodTitle.textContent = 'Error Fetching APOD'; // Displays an error title (Commented by Agnirva.com)
+        AgnirvaapodExplanation.textContent = Agnirvaerror.message; // Displays the error message (Commented by Agnirva.com)
+      }
+    }
+
+    function AgnirvagetSelectedDate() { // Function to get the selected date from the input (Commented by Agnirva.com)
+      const AgnirvadateInput = document.getElementById('apodDate').value; // Retrieves the value from the date input (Commented by Agnirva.com)
+      if (AgnirvadateInput) { // Checks if a date is selected (Commented by Agnirva.com)
+        return AgnirvadateInput; // Returns the selected date (Commented by Agnirva.com)
+      }
+      return null; // Returns null if no date is selected (Commented by Agnirva.com)
+    }
+
+    function AgnirvafetchAPODWrapper() { // Wrapper function to fetch APOD based on selected date (Commented by Agnirva.com)
+      const AgnirvaselectedDate = AgnirvagetSelectedDate(); // Gets the selected date (Commented by Agnirva.com)
+      AgnirvafetchAPOD(AgnirvaselectedDate); // Calls the fetch function with the selected date (Commented by Agnirva.com)
+    }
+
+    // Attach event listener to the button (Commented by Agnirva.com)
+    document.querySelector('.date-picker button').addEventListener('click', AgnirvafetchAPODWrapper); // Adds a click event to the view button to fetch APOD (Commented by Agnirva.com)
+  </script>
+</body>
+</html>

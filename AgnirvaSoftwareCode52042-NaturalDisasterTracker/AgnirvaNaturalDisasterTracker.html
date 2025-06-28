@@ -1,0 +1,136 @@
+<!DOCTYPE html> <!-- Document type declaration indicating HTML5 (Commented by Agnirva.com) -->
+<html lang="en"> <!-- Root element of the HTML with language set to English (Commented by Agnirva.com) -->
+<head>
+    <meta charset="UTF-8"> <!-- Specifies the character encoding for the HTML document (Commented by Agnirva.com) -->
+    <title>Agnirva Natural Disaster Tracker</title> <!-- Title of the webpage displayed in the browser tab (Commented by Agnirva.com) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Sets the viewport to make the website responsive on different devices (Commented by Agnirva.com) -->
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> <!-- Link to Leaflet's CSS for map styling (Commented by Agnirva.com) -->
+    <!-- Custom Styles -->
+    <style>
+        body { /* <!-- Styles for the body of the document (Commented by Agnirva.com) --> */
+            font-family: Arial, sans-serif; /* <!-- Sets the font family for the text (Commented by Agnirva.com) --> */
+            margin: 0; /* <!-- Removes default margin (Commented by Agnirva.com) --> */
+            padding: 0; /* <!-- Removes default padding (Commented by Agnirva.com) --> */
+        }
+        #controls { /* <!-- Styles for the controls section (Commented by Agnirva.com) --> */
+            padding: 10px; /* <!-- Adds padding inside the controls div (Commented by Agnirva.com) --> */
+            background-color: #f4f4f4; /* <!-- Sets background color for the controls section (Commented by Agnirva.com) --> */
+        }
+        #map { /* <!-- Styles for the map container (Commented by Agnirva.com) --> */
+            height: 90vh; /* <!-- Sets the height of the map to 90% of the viewport height (Commented by Agnirva.com) --> */
+            width: 100%; /* <!-- Sets the width of the map to 100% of its container (Commented by Agnirva.com) --> */
+        }
+        .control-group { /* <!-- Styles for each control group (Commented by Agnirva.com) --> */
+            margin-bottom: 10px; /* <!-- Adds space below each control group (Commented by Agnirva.com) --> */
+        }
+        label { /* <!-- Styles for label elements (Commented by Agnirva.com) -->*/
+            margin-right: 10px; /* <!-- Adds space to the right of labels (Commented by Agnirva.com) --> */
+        }
+    </style> <!-- End of custom styles (Commented by Agnirva.com) -->
+</head>
+<body>
+
+    <div id="controls"> <!-- Container for control elements like dropdowns and buttons (Commented by Agnirva.com) -->
+        <div class="control-group"> <!-- Grouping related control elements (Commented by Agnirva.com) -->
+            <label for="category">Event Category:</label> <!-- Label for the event category dropdown (Commented by Agnirva.com) -->
+            <select id="category"> <!-- Dropdown to select event categories (Commented by Agnirva.com) -->
+                <option value="">All</option> <!-- Option to select all categories (Commented by Agnirva.com) -->
+                <option value="wildfires">Wildfires</option> <!-- Option for wildfires category (Commented by Agnirva.com) -->
+                <option value="severeStorms">Severe Storms</option> <!-- Option for severe storms category (Commented by Agnirva.com) -->
+                <option value="volcanoes">Volcanoes</option> <!-- Option for volcanoes category (Commented by Agnirva.com) -->
+                <!-- Add more categories as needed --> <!-- Placeholder to add more event categories (Commented by Agnirva.com) -->
+            </select>
+        </div>
+        <div class="control-group"> <!-- Another group for related controls (Commented by Agnirva.com) -->
+            <label for="days">Past Days:</label> <!-- Label for the number of past days input (Commented by Agnirva.com) -->
+            <input type="number" id="days" value="30" min="1" max="365"> <!-- Input to specify the number of past days to fetch events (Commented by Agnirva.com) -->
+        </div>
+        <button id="fetchEvents">Fetch Events</button> <!-- Button to trigger fetching of events (Commented by Agnirva.com) -->
+    </div>
+
+    <div id="map"></div> <!-- Container where the Leaflet map will be rendered (Commented by Agnirva.com) -->
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Link to Leaflet's JavaScript library for map functionality (Commented by Agnirva.com) -->
+    <!-- JavaScript Code -->
+    <script>
+        // Initialize the map (Commented by Agnirva.com)
+        const Agnirvamap = L.map('map').setView([20, 0], 2); // Centered at [latitude, longitude], zoom level (Commented by Agnirva.com)
+
+        // Add OpenStreetMap tiles (Commented by Agnirva.com)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { // URL template for the tile images (Commented by Agnirva.com)
+            attribution: '&copy; OpenStreetMap contributors' // Attribution text for OpenStreetMap (Commented by Agnirva.com)
+        }).addTo(Agnirvamap); // Adds the tile layer to the map (Commented by Agnirva.com)
+
+        // Function to fetch and display events (Commented by Agnirva.com)
+        async function AgnirvafetchAndDisplayEvents() { // Asynchronous function to fetch event data (Commented by Agnirva.com)
+            const Agnirvacategory = document.getElementById('category').value; // Gets the selected event category (Commented by Agnirva.com)
+            const Agnirvadays = document.getElementById('days').value; // Gets the number of past days selected (Commented by Agnirva.com)
+
+            let AgnirvaapiUrl = `https://eonet.gsfc.nasa.gov/api/v2.1/events?days=${Agnirvadays}`; // Constructs the API URL with the selected days (Commented by Agnirva.com)
+
+            if (Agnirvacategory) { // Checks if a specific category is selected (Commented by Agnirva.com)
+                // Map user-friendly category names to EONET category IDs (Commented by Agnirva.com)
+                const AgnirvacategoryMapping = { // Object mapping category names to their corresponding IDs (Commented by Agnirva.com)
+                    wildfires: 8, // Wildfires category ID (Commented by Agnirva.com)
+                    severeStorms: 10, // Severe storms category ID (Commented by Agnirva.com)
+                    volcanoes: 12 // Volcanoes category ID (Commented by Agnirva.com)
+                    // Add more mappings as needed (Commented by Agnirva.com)
+                };
+                const AgnirvacategoryId = AgnirvacategoryMapping[Agnirvacategory]; // Retrieves the category ID based on selected category (Commented by Agnirva.com)
+                AgnirvaapiUrl += `&category=${AgnirvacategoryId}`; // Appends the category ID to the API URL (Commented by Agnirva.com)
+            }
+
+            try { // Attempts to fetch data from the API (Commented by Agnirva.com)
+                const Agnirvaresponse = await fetch(AgnirvaapiUrl); // Fetches data from the constructed API URL (Commented by Agnirva.com)
+                const Agnirvadata = await Agnirvaresponse.json(); // Parses the response as JSON (Commented by Agnirva.com)
+                AgnirvadisplayEventsOnMap(Agnirvadata.events); // Calls function to display fetched events on the map (Commented by Agnirva.com)
+            } catch (Agnirvaerror) { // Catches any errors during the fetch process (Commented by Agnirva.com)
+                console.error('Error fetching events:', Agnirvaerror); // Logs the error to the console (Commented by Agnirva.com)
+                alert('Failed to fetch events. Please try again later.'); // Alerts the user about the failure (Commented by Agnirva.com)
+            }
+        }
+
+        // Function to display events on the map (Commented by Agnirva.com)
+        function AgnirvadisplayEventsOnMap(Agnirvaevents) { // Function that takes events data and displays them on the map (Commented by Agnirva.com)
+            // Clear existing markers (Commented by Agnirva.com)
+            if (window.AgnirvaeventMarkers) { // Checks if there are existing event markers (Commented by Agnirva.com)
+                window.AgnirvaeventMarkers.forEach(Agnirvamarker => Agnirvamap.removeLayer(Agnirvamarker)); // Removes each existing marker from the map (Commented by Agnirva.com)
+            }
+            window.AgnirvaeventMarkers = []; // Initializes the markers array (Commented by Agnirva.com)
+
+            Agnirvaevents.forEach(Agnirvaevent => { // Iterates over each event (Commented by Agnirva.com)
+                Agnirvaevent.geometries.forEach(Agnirvageometry => { // Iterates over each geometry of the event (Commented by Agnirva.com)
+                    let Agnirvacoords; // Variable to store coordinates (Commented by Agnirva.com)
+                    if (Agnirvageometry.type === "Point") { // Checks if geometry type is Point (Commented by Agnirva.com)
+                        Agnirvacoords = Agnirvageometry.coordinates; // Gets coordinates for Point type (Commented by Agnirva.com)
+                        AgnirvaaddMarker(Agnirvacoords, Agnirvaevent); // Adds a marker for the event (Commented by Agnirva.com)
+                    } else if (Agnirvageometry.type === "Polygon") { // Checks if geometry type is Polygon (Commented by Agnirva.com)
+                        // For simplicity, take the first point of the polygon (Commented by Agnirva.com)
+                        Agnirvacoords = Agnirvageometry.coordinates[0][0]; // Gets the first coordinate of the Polygon (Commented by Agnirva.com)
+                        AgnirvaaddMarker(Agnirvacoords, Agnirvaevent); // Adds a marker for the event (Commented by Agnirva.com)
+                    }
+                });
+            });
+        }
+
+        // Function to add a marker to the map (Commented by Agnirva.com)
+        function AgnirvaaddMarker(Agnirvacoords, Agnirvaevent) { // Function that adds a marker to the map based on coordinates and event data (Commented by Agnirva.com)
+            const Agnirvamarker = L.marker([Agnirvacoords[1], Agnirvacoords[0]]).addTo(Agnirvamap); // Creates and adds a new marker to the map (Commented by Agnirva.com)
+            Agnirvamarker.bindPopup(`
+                <strong>${Agnirvaevent.title}</strong><br> <!-- Displays the event title in bold (Commented by Agnirva.com) -->
+                <em>${new Date(Agnirvaevent.geometries[0].date).toLocaleDateString()}</em><br> <!-- Displays the event date in italics (Commented by Agnirva.com) -->
+                ${Agnirvaevent.description ? Agnirvaevent.description : ''} <!-- Displays the event description if available (Commented by Agnirva.com) -->
+            `);// Binds a popup to the marker with event details (Commented by Agnirva.com)
+            window.AgnirvaeventMarkers.push(Agnirvamarker); // Stores the marker in the global markers array (Commented by Agnirva.com)
+        }
+
+        // Event listener for the fetch button (Commented by Agnirva.com)
+        document.getElementById('fetchEvents').addEventListener('click', AgnirvafetchAndDisplayEvents); // Adds a click event listener to the fetch button to trigger event fetching (Commented by Agnirva.com)
+
+        // Initial fetch on page load (Commented by Agnirva.com)
+        AgnirvafetchAndDisplayEvents(); // Calls the fetch function when the page loads to display events immediately (Commented by Agnirva.com)
+    </script>
+</body>
+</html>
